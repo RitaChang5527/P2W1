@@ -10,7 +10,7 @@ app.json.ensure_ascii = False  # 解码
 db_config = {
     "host": "127.0.0.1",
     "user": "root",
-    "password": "123456789",
+    "password": "#Abc123456789",
     "database": "taipei",
 }
 pool = mysql.connector.pooling.MySQLConnectionPool(pool_name="attractions_pool", pool_size=10, **db_config)
@@ -139,4 +139,4 @@ def get_mrts():
         conn.close()
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host="0.0.0.0", port=3000)
