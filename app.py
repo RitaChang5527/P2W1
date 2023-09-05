@@ -89,6 +89,10 @@ def get_attractions():
 
         cursor.execute(query, query_params)
         attractions = cursor.fetchall()
+        
+
+        data_len = 12
+        next_page = page + 1 if len(attractions) == data_len else None
 
         formatted_data = {
             "data": [
@@ -100,12 +104,13 @@ def get_attractions():
                     "address": attraction["address"],
                     "transport": attraction["transport"],
                     "mrt": attraction["mrt"],
-                    "lat": float(attraction["lat"]),  # 将字符串转换为浮点数
-                    "lng": float(attraction["lng"]),  # 将字符串转换为浮点数
+                    "lat": float(attraction["lat"]),
+                    "lng": float(attraction["lng"]),
                     "images": attraction["images"].split(",") if attraction["images"] else []
                 }
                 for attraction in attractions
-            ]
+            ],
+            "nextPage": next_page  
         }
 
         json_data = json.dumps(formatted_data, ensure_ascii=False, indent=2)
