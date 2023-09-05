@@ -1,6 +1,8 @@
 from flask import Flask, jsonify, request, render_template
 import mysql.connector.pooling
-import traceback  # 导入 traceback 模块用于错误日志记录
+import traceback 
+from collections import OrderedDict
+import json
 
 app = Flask(__name__)
 app.config["JSON_AS_ASCII"] = False
@@ -33,52 +35,75 @@ def booking():
 def thankyou():
     return render_template("thankyou.html")
 
-from flask import jsonify
-
 @app.route("/api/attractions", methods=['GET'])
 def get_attractions():
     try:
         conn = pool.get_connection()
         cursor = conn.cursor(dictionary=True)
         page = int(request.args.get("page", 0))
-        keyword = request.args.get("keyword", "")
+        keyword = request.args.get("keyword", "")  # 獲取關鍵字參數
 
         if not keyword:
+            # 如果關鍵字為空，則不進行篩選，並按照指定的順序排序
             query = """
-                SELECT a.id AS attraction_id, a.name, a.category, a.description, a.address, a.mrt, a.transport, a.latitude, a.longitude, GROUP_CONCAT(ai.image_url) AS images
+                SELECT 
+                    a.id AS id, 
+                    a.name, 
+                    a.category, 
+                    a.description, 
+                    a.address, 
+                    a.transport, 
+                    a.mrt, 
+                    a.latitude AS lat, 
+                    a.longitude AS lng, 
+                    GROUP_CONCAT(ai.image_url) AS images
                 FROM attractions AS a
                 LEFT JOIN attraction_images AS ai ON a.id = ai.attraction_id
-                GROUP BY attraction_id, a.id  -- Include a.id in the GROUP BY clause
+                GROUP BY id, a.id  # 將 a.id 列添加到 GROUP BY 子句中
+                ORDER BY id ASC  # 按ID由小到大排序
                 LIMIT %s, 12
             """
             query_params = (page * 12, )
         else:
+            # 如果提供了關鍵字，則根據關鍵字篩選，並按照指定的順序排序
             query = """
-                SELECT a.id AS attraction_id, a.name, a.category, a.description, a.address, a.mrt, a.transport, a.latitude, a.longitude, GROUP_CONCAT(ai.image_url) AS images
+                SELECT 
+                    a.id AS id, 
+                    a.name, 
+                    a.category, 
+                    a.description, 
+                    a.address, 
+                    a.transport, 
+                    a.mrt, 
+                    a.latitude AS lat, 
+                    a.longitude AS lng, 
+                    GROUP_CONCAT(ai.image_url) AS images
                 FROM attractions AS a
                 LEFT JOIN attraction_images AS ai ON a.id = ai.attraction_id
-                WHERE a.name LIKE %s OR a.category = %s
-                GROUP BY attraction_id, a.id  -- Include a.id in the GROUP BY clause
-                ORDER BY attraction_id
+                WHERE a.name LIKE %s OR a.mrt LIKE %s  # 模糊比對景點名稱和捷運站名稱
+                ORDER BY id ASC  # 按ID由小到大排序
                 LIMIT %s OFFSET %s
             """
-            query_params = (f"%{keyword}%", keyword, 12, page * 12)
+            query_params = (f"%{keyword}%", f"%{keyword}%", 12, page * 12)
 
         cursor.execute(query, query_params)
         attractions = cursor.fetchall()
 
+        # 印出第一筆資料
+        if attractions:
+            first_attraction = attractions[0]  # 獲取第一筆資料
+        else:
+            first_attraction = None  # 如果 attractions 為空，則設定為 None
+
         data_len = 12
         next_page = page + 1 if len(attractions) == data_len else None
 
-        # Split the image URLs string into a list
-        for attraction in attractions:
-            image_urls = attraction.get("images", "")
-            attraction["images"] = image_urls.split(",") if image_urls else []
-
-        response_data = {"nextPage": next_page, "data": attractions}
+        response_data = {"data": attractions, "first_attraction": first_attraction, "next_page": next_page}
         return jsonify(response_data)
 
+
     except Exception as e:
+        traceback.print_exc()
         return jsonify({"error": True, "message": "伺服器錯誤"}), 500
     finally:
         cursor.close()
@@ -91,12 +116,11 @@ def get_attraction_details(attraction_id):
     try:
         conn = pool.get_connection()
         cursor = conn.cursor(dictionary=True)
-        
-        # Query attraction information and related image URLs
+
         query = """
             SELECT 
-                a.id AS attractionId, a.name, a.category, a.description, a.address, a.mrt, 
-                a.transport, a.latitude, a.longitude, ai.image_url AS images
+                a.id AS id, a.name, a.category, a.description, a.address, a.transport, a.mrt, 
+                a.latitude AS lat, a.longitude AS lng, GROUP_CONCAT(ai.image_url) AS images
             FROM attractions a
             LEFT JOIN attraction_images ai ON a.id = ai.attraction_id
             WHERE a.id = %s
@@ -108,36 +132,29 @@ def get_attraction_details(attraction_id):
             print("Attraction data not found")
             return jsonify({"error": True, "message": "Invalid attraction ID"}), 400
 
-        # Read the query result
-        cursor.fetchall()
+        response_data = OrderedDict()
+        response_data["id"] = attraction_data["id"]
+        response_data["name"] = attraction_data["name"]
+        response_data["category"] = attraction_data["category"]
+        response_data["description"] = attraction_data["description"]
+        response_data["address"] = attraction_data["address"]
+        response_data["transport"] = attraction_data["transport"]
+        response_data["mrt"] = attraction_data["mrt"]
+        response_data["lat"] = attraction_data["lat"]
+        response_data["lng"] = attraction_data["lng"]
+        response_data["images"] = attraction_data["images"].split(",") if attraction_data["images"] else []
 
-        # Modify field names to align with API documentation
-        response_data = {
-            "data": {
-                "id": attraction_data["attractionId"],
-                "name": attraction_data["name"],
-                "category": attraction_data["category"],
-                "description": attraction_data["description"],
-                "address": attraction_data["address"],
-                "mrt": attraction_data["mrt"],
-                "transport": attraction_data["transport"],
-                "latitude": attraction_data["latitude"],
-                "longitude": attraction_data["longitude"],
-                "images": attraction_data["images"].split(",") if attraction_data["images"] else []
-            }
-        }
-
-        return jsonify(response_data)
+        return jsonify({"data": dict(response_data)})  # 将结果包装在 "data" 键下
 
     except Exception as e:
         print(f"Error: {str(e)}")
         return jsonify({"error": True, "message": "Server error"}), 500
     finally:
-        # Close the cursor and connection here
         if cursor:
             cursor.close()
         if conn.is_connected():
             conn.close()
+
 
 
 @app.route("/api/mrts")
@@ -167,4 +184,4 @@ def get_mrts():
 # 其他路由和函数
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0"port=3000)
+    app.run(port=3000)
