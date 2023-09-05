@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request, render_template
 import mysql.connector.pooling
+import traceback  # 导入 traceback 模块用于错误日志记录
 
 app = Flask(__name__)
 app.config["JSON_AS_ASCII"] = False
@@ -10,7 +11,7 @@ app.json.ensure_ascii = False  # 解码
 db_config = {
     "host": "127.0.0.1",
     "user": "root",
-    "password": "#Abc123456789",
+    "password": "123456789",
     "database": "taipei",
 }
 pool = mysql.connector.pooling.MySQLConnectionPool(pool_name="attractions_pool", pool_size=10, **db_config)
@@ -32,6 +33,8 @@ def booking():
 def thankyou():
     return render_template("thankyou.html")
 
+from flask import jsonify
+
 @app.route("/api/attractions", methods=['GET'])
 def get_attractions():
     try:
@@ -42,18 +45,20 @@ def get_attractions():
 
         if not keyword:
             query = """
-                SELECT a.id AS attraction_id, a.name, a.category, a.description, a.address, a.mrt, a.transport, a.latitude, a.longitude, ai.image_url
+                SELECT a.id AS attraction_id, a.name, a.category, a.description, a.address, a.mrt, a.transport, a.latitude, a.longitude, GROUP_CONCAT(ai.image_url) AS images
                 FROM attractions AS a
                 LEFT JOIN attraction_images AS ai ON a.id = ai.attraction_id
+                GROUP BY attraction_id, a.id  -- Include a.id in the GROUP BY clause
                 LIMIT %s, 12
             """
             query_params = (page * 12, )
         else:
             query = """
-                SELECT a.id AS attraction_id, a.name, a.category, a.description, a.address, a.mrt, a.transport, a.latitude, a.longitude, ai.image_url
+                SELECT a.id AS attraction_id, a.name, a.category, a.description, a.address, a.mrt, a.transport, a.latitude, a.longitude, GROUP_CONCAT(ai.image_url) AS images
                 FROM attractions AS a
                 LEFT JOIN attraction_images AS ai ON a.id = ai.attraction_id
                 WHERE a.name LIKE %s OR a.category = %s
+                GROUP BY attraction_id, a.id  -- Include a.id in the GROUP BY clause
                 ORDER BY attraction_id
                 LIMIT %s OFFSET %s
             """
@@ -65,6 +70,11 @@ def get_attractions():
         data_len = 12
         next_page = page + 1 if len(attractions) == data_len else None
 
+        # Split the image URLs string into a list
+        for attraction in attractions:
+            image_urls = attraction.get("images", "")
+            attraction["images"] = image_urls.split(",") if image_urls else []
+
         response_data = {"nextPage": next_page, "data": attractions}
         return jsonify(response_data)
 
@@ -74,17 +84,19 @@ def get_attractions():
         cursor.close()
         conn.close()
 
+
+
 @app.route("/api/attraction/<attraction_id>")
 def get_attraction_details(attraction_id):
     try:
         conn = pool.get_connection()
         cursor = conn.cursor(dictionary=True)
         
-        # 查询景点信息以及相关的图片链接
+        # Query attraction information and related image URLs
         query = """
             SELECT 
-                a.id, a.name, a.category, a.description, a.address, a.mrt, 
-                a.transport, a.latitude, a.longitude, ai.image_url
+                a.id AS attractionId, a.name, a.category, a.description, a.address, a.mrt, 
+                a.transport, a.latitude, a.longitude, ai.image_url AS images
             FROM attractions a
             LEFT JOIN attraction_images ai ON a.id = ai.attraction_id
             WHERE a.id = %s
@@ -93,26 +105,40 @@ def get_attraction_details(attraction_id):
         attraction_data = cursor.fetchone()
 
         if not attraction_data:
-            print("景点数据未找到")
-            return jsonify({"error": True, "message": "輸入錯誤，無此 id 編號"}), 400
+            print("Attraction data not found")
+            return jsonify({"error": True, "message": "Invalid attraction ID"}), 400
 
-        # 读取查询结果
+        # Read the query result
         cursor.fetchall()
 
-        # 在这里处理查询结果
-        # ...
+        # Modify field names to align with API documentation
+        response_data = {
+            "data": {
+                "id": attraction_data["attractionId"],
+                "name": attraction_data["name"],
+                "category": attraction_data["category"],
+                "description": attraction_data["description"],
+                "address": attraction_data["address"],
+                "mrt": attraction_data["mrt"],
+                "transport": attraction_data["transport"],
+                "latitude": attraction_data["latitude"],
+                "longitude": attraction_data["longitude"],
+                "images": attraction_data["images"].split(",") if attraction_data["images"] else []
+            }
+        }
 
-        return jsonify({"data": attraction_data})
+        return jsonify(response_data)
 
     except Exception as e:
         print(f"Error: {str(e)}")
-        return jsonify({"error": True, "message": "伺服器錯誤"}), 500
+        return jsonify({"error": True, "message": "Server error"}), 500
     finally:
-        # 在这里关闭游标和连接
+        # Close the cursor and connection here
         if cursor:
             cursor.close()
         if conn.is_connected():
             conn.close()
+
 
 @app.route("/api/mrts")
 def get_mrts():
@@ -138,5 +164,7 @@ def get_mrts():
         cursor.close()
         conn.close()
 
+# 其他路由和函数
+
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=3000)
+    app.run(port=3000)
