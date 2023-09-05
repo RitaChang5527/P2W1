@@ -89,18 +89,29 @@ def get_attractions():
         cursor.execute(query, query_params)
         attractions = cursor.fetchall()
 
-        # 印出第一筆資料
-        if attractions:
-            first_attraction = attractions[0]  # 獲取第一筆資料
-        else:
-            first_attraction = None  # 如果 attractions 為空，則設定為 None
+        # 将数据格式化为多行文本格式的 JSON
+        formatted_data = {
+            "data": [
+                {
+                    "id": attraction["id"],
+                    "name": attraction["name"],
+                    "category": attraction["category"],
+                    "description": attraction["description"],
+                    "address": attraction["address"],
+                    "transport": attraction["transport"],
+                    "mrt": attraction["mrt"],
+                    "lat": float(attraction["lat"]),  # 将字符串转换为浮点数
+                    "lng": float(attraction["lng"]),  # 将字符串转换为浮点数
+                    "images": attraction["images"].split(",") if attraction["images"] else []
+                }
+                for attraction in attractions
+            ]
+        }
 
-        data_len = 12
-        next_page = page + 1 if len(attractions) == data_len else None
+        # 使用json.dumps生成多行文本格式的JSON
+        json_data = json.dumps(formatted_data, ensure_ascii=False, indent=2)
 
-        response_data = {"data": attractions, "first_attraction": first_attraction, "next_page": next_page}
-        return jsonify(response_data)
-
+        return json_data, 200, {"Content-Type": "application/json; charset=utf-8"}
 
     except Exception as e:
         traceback.print_exc()
@@ -108,7 +119,6 @@ def get_attractions():
     finally:
         cursor.close()
         conn.close()
-
 
 
 @app.route("/api/attraction/<attraction_id>")
