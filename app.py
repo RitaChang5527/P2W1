@@ -7,9 +7,8 @@ import json
 app = Flask(__name__)
 app.config["JSON_AS_ASCII"] = False
 app.config["TEMPLATES_AUTO_RELOAD"] = True
-app.json.ensure_ascii = False  # 解码
+app.json.ensure_ascii = False  
 
-# 创建MySQL连接池
 db_config = {
     "host": "127.0.0.1",
     "user": "root",
@@ -41,10 +40,9 @@ def get_attractions():
         conn = pool.get_connection()
         cursor = conn.cursor(dictionary=True)
         page = int(request.args.get("page", 0))
-        keyword = request.args.get("keyword", "")  # 獲取關鍵字參數
+        keyword = request.args.get("keyword", "") 
 
         if not keyword:
-            # 如果關鍵字為空，則不進行篩選，並按照指定的順序排序
             query = """
                 SELECT 
                     a.id AS id, 
@@ -65,7 +63,6 @@ def get_attractions():
             """
             query_params = (page * 12, )
         else:
-            # 如果提供了關鍵字，則根據關鍵字篩選，並按照指定的順序排序
             query = """
                 SELECT 
                     a.id AS id, 
@@ -80,7 +77,7 @@ def get_attractions():
                     GROUP_CONCAT(ai.image_url) AS images
                 FROM attractions AS a
                 LEFT JOIN attraction_images AS ai ON a.id = ai.attraction_id
-                WHERE a.name LIKE %s OR a.mrt LIKE %s  # 模糊比對景點名稱和捷運站名稱
+                WHERE a.name LIKE %s OR a.mrt LIKE %s  
                 GROUP BY a.id, a.name, a.category, a.description, a.address, a.transport, a.mrt, a.latitude, a.longitude  # 添加所有列到GROUP BY子句中
                 ORDER BY id ASC  # 按ID由小到大排序
                 LIMIT %s OFFSET %s
@@ -90,10 +87,9 @@ def get_attractions():
         cursor.execute(query, query_params)
         attractions = cursor.fetchall()
         
-
         data_len = 12
         next_page = page + 1 if len(attractions) == data_len else None
-
+        
         formatted_data = {
             "data": [
                 {
@@ -104,6 +100,13 @@ def get_attractions():
                     "address": attraction["address"],
                     "transport": attraction["transport"],
                     "mrt": attraction["mrt"],
+                    "lat": float(attraction["lat"]),  
+                    "lng": float(attraction["lng"]),  
+                    "images": attraction["images"].split(",") if attraction["images"] else []
+                }
+                for attraction in attractions
+            ]
+        }
                     "lat": float(attraction["lat"]),
                     "lng": float(attraction["lng"]),
                     "images": attraction["images"].split(",") if attraction["images"] else []
@@ -123,7 +126,7 @@ def get_attractions():
     finally:
         cursor.close()
         conn.close()
-
+        
 @app.route("/api/attraction/<attraction_id>")
 def get_attraction_details(attraction_id):
     try:
@@ -144,6 +147,21 @@ def get_attraction_details(attraction_id):
         if not attraction_data:
             print("Attraction data not found")
             return jsonify({"error": True, "message": "Invalid attraction ID"}), 400
+
+
+        response_data = OrderedDict()
+        response_data["id"] = attraction_data["id"]
+        response_data["name"] = attraction_data["name"]
+        response_data["category"] = attraction_data["category"]
+        response_data["description"] = attraction_data["description"]
+        response_data["address"] = attraction_data["address"]
+        response_data["transport"] = attraction_data["transport"]
+        response_data["mrt"] = attraction_data["mrt"]
+        response_data["lat"] = attraction_data["lat"]
+        response_data["lng"] = attraction_data["lng"]
+        response_data["images"] = attraction_data["images"].split(",") if attraction_data["images"] else []
+
+        return jsonify({"data": dict(response_data)})  # 将结果包装在 "data" 键下
 
         formatted_data = {
             "data": {
