@@ -47,10 +47,6 @@ header .head .right .item {
   color: #666666;
 }
 
-.mobile-menu {
-  display: none;
-}
-
 section {
   display: flex;
   margin-top: 54px;
@@ -235,116 +231,97 @@ footer .foot {
 
 @media (max-width: 1200px) {
   header .head {
-    margin: 0px 90px;
+    width: 90%;
   }
-  .welcome-bg {
-    -o-object-fit: cover;
-       object-fit: cover;
-  }
-  .welcome-bg .welcome {
-    width: 80%;
+  section .welcome {
+    width: 90%;
   }
   main .list .list-bar {
-    margin: 0px 100px;
-  }
-  main .list .list-bar .mrt-item {
-    padding: 5px 5px;
+    width: 90%;
   }
   main .content .main2 {
-    margin: 0px 10px;
-    display: flex;
-    justify-content: center;
+    width: 90%;
   }
   main .content .main2 .attraction_box {
-    width: 300px;
+    width: 30%;
+    -o-object-fit: contain;
+       object-fit: contain;
   }
   main .content .main2 .attraction_box .img {
     width: 100%;
+  }
+  main .content .main2 .attraction_box .img img {
+    width: 100%;
     -o-object-fit: cover;
        object-fit: cover;
-  }
-  main .content .main2 .empty {
-    width: 0%;
   }
 }
 @media (max-width: 600px) {
   header .head {
-    margin: 0px 70px;
-  }
-  .welcome-bg {
-    width: 600px;
-    -o-object-fit: cover;
-       object-fit: cover;
-  }
-  .welcome-bg .welcome {
-    margin: 0px 70px;
-  }
-  .welcome-bg .welcome .search {
-    width: 300px;
-  }
-  .welcome-bg .welcome .search .search-btn {
-    width: 60px;
-  }
-  main .list .list-bar {
-    margin: 0px 10px;
-  }
-  main .list .list-bar .mrt-item {
-    padding: 5px 5px;
-  }
-  main .content .main2 .attraction_box .img {
-    width: 100%;
-    -o-object-fit: cover;
-       object-fit: cover;
-  }
-  main .content .main2 .empty {
-    width: 0%;
-  }
-}
-@media (max-width: 360px) {
-  header {
-    width: 360px;
-  }
-  header .head {
-    width: 100%;
-    margin: 0px 10px;
-  }
-  section {
-    width: 100%;
+    width: 80%;
   }
   section .welcome-bg {
     width: 100%;
-    -o-object-fit: cover;
-       object-fit: cover;
   }
   section .welcome-bg .welcome {
-    width: 340px;
+    width: 80%;
+  }
+  section .welcome-bg .welcome .search {
+    width: 80%;
   }
   section .welcome-bg .welcome .search .search-bar {
-    width: 285px;
+    width: 90%;
   }
   main .list .list-bar {
-    width: 360px;
-    margin: 0px 10px;
-  }
-  main .list .list-bar .mrt-item {
-    padding: 5px 5px;
+    width: 80%;
   }
   main .content .main2 {
-    margin: 0px 10px;
-    display: flex;
-    justify-content: center;
+    width: 90%;
   }
   main .content .main2 .attraction_box {
-    width: 320px;
-    height: 280px;
+    width: 45%;
+    -o-object-fit: contain;
+       object-fit: contain;
   }
   main .content .main2 .attraction_box .img {
     width: 100%;
-    height: 235px;
+  }
+  main .content .main2 .attraction_box .img img {
+    width: 100%;
     -o-object-fit: cover;
        object-fit: cover;
   }
-  main .content .main2 .empty {
-    width: 0%; /* 完全填充屏幕宽度 */
+}
+@media (max-width: 360px) {
+  header .head {
+    width: 90%;
+  }
+  section .welcome-bg .welcome {
+    width: 90%;
+  }
+  section .welcome-bg .welcome .search {
+    width: 90%;
+  }
+  section .welcome-bg .welcome .search .search-bar {
+    width: 90%;
+  }
+  main .list .list-bar {
+    width: 90%;
+  }
+  main .content .main2 {
+    width: 90%;
+  }
+  main .content .main2 .attraction_box {
+    width: 100%;
+    -o-object-fit: contain;
+       object-fit: contain;
+  }
+  main .content .main2 .attraction_box .img {
+    width: 100%;
+  }
+  main .content .main2 .attraction_box .img img {
+    width: 100%;
+    -o-object-fit: cover;
+       object-fit: cover;
   }
 }/*# sourceMappingURL=style.css.map */

@@ -5,24 +5,24 @@ const RBtn = document.getElementById("list-Rbtn");
 
 let mrtsData = [];
 let startIndex = 0;
-let numVisibleMrts = 14; // Default value for larger screens
-let scrollAmount = 10; // Define scrollAmount here
-// Check screen width and update numVisibleMrts if needed
+let numVisibleMrts = 14; 
+let scrollAmount = 10; 
+
 function updateNumVisibleMrts() {
 	if (window.innerWidth <= 360) {
 		numVisibleMrts = 4;
 		scrollAmount = 4; // Adjust for screens with width 360px or less
 	} else if (window.innerWidth > 360 && window.innerWidth <= 600) {
 		numVisibleMrts = 6;
-		scrollAmount = 6; // Adjust for screens with width between 360px and 600px
+		scrollAmount = 6; 
 	} else if (window.innerWidth <= 1200) {
-		numVisibleMrts = 8; // Adjust for screens with width between 600px and 1200px
+		numVisibleMrts = 8; 
 		scrollAmount = 8;
 	} else {
 		numVisibleMrts = 14;
-		scrollAmount = 10; // Default value for larger screens
+		scrollAmount = 10; 
 	}
-	renderMrts(); // Re-render the MRT items when the screen size changes
+	renderMrts(); 
 }
 
 window.addEventListener("resize", updateNumVisibleMrts);
@@ -75,8 +75,7 @@ fetch('/api/mrts')
 			return `<div class="mrt-item">${mrt}</div>`;
 		}).join('');
 		mrtsContainer.innerHTML = mrtsHTML;
-	
-		// 在每个 mrt-item 上添加点击事件处理程序
+
 		const mrtItems = document.querySelectorAll(".mrt-item");
 		mrtItems.forEach(item => {
 			item.addEventListener("click", function () {
@@ -108,11 +107,17 @@ function searchAttractions(searchText) {
 		});
 }
 
-let scrollListener = handleScroll;
+let isLoading = false;
+let isSearching = false;
+let searchKeyword = '';
 
+let scrollListener = handleScroll;
 const searchBar = document.getElementById("search");
 searchBar.addEventListener("input", function () {
     const searchText = searchBar.value.trim().toLowerCase();
+
+    // 在搜索时更新搜索关键字
+    searchKeyword = searchText;
 
     fetch(`/api/attractions?page=0&keyword=${searchText}`)
         .then(response => {
@@ -214,7 +219,6 @@ function createAttraction(data) {
 	});
 }
 
-//* 更新 createAttraction 函数以追加景点信息
 function appendAttractions(newAttractions) {
     const attractionsContainer = document.getElementById("attractions");
     const attractionsHTML = newAttractions.map(attraction => {
@@ -235,16 +239,14 @@ function appendAttractions(newAttractions) {
     attractionsContainer.innerHTML += attractionsHTML;
 	addEmpty(attractionsContainer.querySelectorAll(".attraction_box"));
 }
-window.addEventListener('scroll', handleScroll);
 
-let nextPage = 1; // 从第一页开始加载
-let isLoading = false;
+let nextPage = 1; 
 
-function loadNextPage() {
+function loadNextPage(searchText) {
     if (!isLoading) {
         isLoading = true;
 
-        fetch(`/api/attractions?page=${nextPage}`)
+        fetch(`/api/attractions?page=0&keyword=${searchText}`)
             .then(response => {
                 if (response.status === 200) {
                     return response.json();
