@@ -1,4 +1,3 @@
-@charset "UTF-8";
 * {
   margin: 0px;
 }
@@ -12,9 +11,9 @@ header {
   left: 0;
   width: 100%;
   height: 54px;
-  background-color: #ffffff; /* 根据您的设计选择背景颜色 */
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* 添加阴影效果，根据需要自定义 */
-  z-index: 1000; /* 确保标题栏在其他内容之上 */
+  background-color: #ffffff;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
 }
 header .head {
   display: flex;
@@ -239,6 +238,12 @@ footer .foot {
   main .list .list-bar {
     width: 90%;
   }
+  main .list .list-bar .mrts {
+    white-space: nowrap;
+  }
+  main .list .list-bar .mrts .mrt-item {
+    padding: 7px;
+  }
   main .content .main2 {
     width: 90%;
   }
@@ -254,6 +259,9 @@ footer .foot {
     width: 100%;
     -o-object-fit: cover;
        object-fit: cover;
+  }
+  main .content .main2 .empty {
+    width: 0%;
   }
 }
 @media (max-width: 600px) {
@@ -275,6 +283,12 @@ footer .foot {
   main .list .list-bar {
     width: 80%;
   }
+  main .list .list-bar .mrts {
+    white-space: nowrap;
+  }
+  main .list .list-bar .mrts .mrt-item {
+    padding: 5px;
+  }
   main .content .main2 {
     width: 90%;
   }
@@ -290,6 +304,9 @@ footer .foot {
     width: 100%;
     -o-object-fit: cover;
        object-fit: cover;
+  }
+  main .content .main2 .empty {
+    width: 0%;
   }
 }
 @media (max-width: 360px) {
@@ -308,6 +325,9 @@ footer .foot {
   main .list .list-bar {
     width: 90%;
   }
+  main .list .list-bar .mrts .mrt-item {
+    padding: 2px;
+  }
   main .content .main2 {
     width: 90%;
   }
@@ -323,5 +343,8 @@ footer .foot {
     width: 100%;
     -o-object-fit: cover;
        object-fit: cover;
+  }
+  main .content .main2 .empty {
+    width: 0%;
   }
 }/*# sourceMappingURL=style.css.map */

@@ -12,11 +12,11 @@ function updateNumVisibleMrts() {
 		numVisibleMrts = 4;
 		scrollAmount = 4; // Adjust for screens with width 360px or less
 	} else if (window.innerWidth > 360 && window.innerWidth <= 600) {
-		numVisibleMrts = 6;
-		scrollAmount = 6; // Adjust for screens with width between 360px and 600px
+		numVisibleMrts = 5;
+		scrollAmount = 5; // Adjust for screens with width between 360px and 600px
 	} else if (window.innerWidth <= 1200) {
-		numVisibleMrts = 8; // Adjust for screens with width between 600px and 1200px
-		scrollAmount = 8;
+		numVisibleMrts =7; // Adjust for screens with width between 600px and 1200px
+		scrollAmount = 7;
 	} else {
 		numVisibleMrts = 14;
 		scrollAmount = 10; // Default value for larger screens
@@ -241,7 +241,7 @@ function appendAttractions(newAttractions) {
 }
 window.addEventListener('scroll', handleScroll);
 
-let nextPage = 1; // 从第一页开始加载
+let nextPage = 1; 
 let keyword = null;
 let isLoading = false;
 

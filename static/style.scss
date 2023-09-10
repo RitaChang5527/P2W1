@@ -11,15 +11,15 @@ header {
     left: 0;
     width: 100%;
     height: 54px;
-    background-color: #ffffff; /* 根据您的设计选择背景颜色 */
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* 添加阴影效果，根据需要自定义 */
-    z-index: 1000; /* 确保标题栏在其他内容之上 */
+    background-color: #ffffff; 
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); 
+    z-index: 1000; 
     .head{
         display: flex;
         width: 1200px;
         justify-content: space-between;
         .left {
-            flex: none; //固定配置
+            flex: none; 
             font-family: Noto Sans TC;
             font-size: 30px;
             font-weight: 700;
@@ -29,12 +29,12 @@ header {
             color: #448899;
         }
         .right {
-            display: flex; //讓下一個項目 水平排列
+            display: flex; 
             align-items: center;
             width: 175px;
             height:34px;
                 .item {
-                flex: none; //固定配置
+                flex: none; 
                 font-family: Noto Sans TC;
                 justify-content: space-between;
                 padding: 10px;
@@ -260,6 +260,12 @@ footer{
         .list{
             .list-bar{
                 width: 90%;
+                .mrts{
+                    white-space: nowrap;
+                    .mrt-item{
+                        padding: 7px;
+                    }
+                }
             }
         }
         .content{
@@ -275,6 +281,9 @@ footer{
                             object-fit: cover;
                         }
                     }
+                }
+                .empty{
+                    width: 0%;
                 }
             }
         }
@@ -305,6 +314,13 @@ footer{
         .list{
             .list-bar{
                 width: 80%;
+                .mrts{
+                    white-space: nowrap;
+                    .mrt-item{
+                        padding: 5px;
+                    }
+                    
+                }
             }
         }
         .content{
@@ -320,6 +336,9 @@ footer{
                             object-fit: cover;
                         }
                     }
+                }
+                .empty{
+                    width: 0%;
                 }
             }
         }
@@ -351,6 +370,11 @@ footer{
         .list{
             .list-bar{
                 width: 90%;
+                .mrts{
+                    .mrt-item{
+                        padding: 2px;
+                    }
+                }
             }
         }
         .content{
@@ -366,6 +390,9 @@ footer{
                             object-fit: cover;
                         }
                     }
+                }
+                .empty{
+                    width: 0%;
                 }
             }
         }
