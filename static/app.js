@@ -5,7 +5,7 @@ const RBtn = document.getElementById("list-Rbtn");
 let mrtsData = [];
 let startIndex = 0;
 let numVisibleMrts = 14; // Default value for larger screens
-let scrollAmount = 7; // Define scrollAmount here
+let scrollAmount = 8; // Define scrollAmount here
 let itemWidth = 80;
 // Check screen width and update numVisibleMrts if needed
 function updateNumVisibleMrts() {
