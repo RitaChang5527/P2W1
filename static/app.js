@@ -137,27 +137,51 @@ searchBar.addEventListener("input", function () {
 
 function renderAttractions(attractions) {
     const attractionsContainer = document.getElementById("attractions");
-    if (attractions.length > 0) {
-        const attractionsHTML = attractions.map(attraction => {
-            return `
-			<div class="attraction_box">
-			<div class="img">
-				<img src="${attraction.images[0]}" alt="${attraction.name}" />
-				<div class="name">${attraction.name}</div>
-			</div>
-			<div class="describe">
-				<div class="mrt">${attraction.mrt}</div>
-				<div class="category">${attraction.category}</div>
-			</div>
-		</div>
-            `;
-        }).join('');
+    attractionsContainer.innerHTML = ""; 
 
-        attractionsContainer.innerHTML = attractionsHTML;
+    if (attractions.length > 0) {
+        attractions.forEach(attraction => {
+            const attractionBox = document.createElement("div");
+            attractionBox.classList.add("attraction_box");
+
+            const imgDiv = document.createElement("div");
+            imgDiv.classList.add("img");
+
+            const img = document.createElement("img");
+            img.src = attraction.images[0];
+            img.alt = attraction.name;
+
+            const nameDiv = document.createElement("div");
+            nameDiv.classList.add("name");
+            nameDiv.innerText = attraction.name;
+
+            imgDiv.appendChild(img);
+            imgDiv.appendChild(nameDiv);
+
+            const describeDiv = document.createElement("div");
+            describeDiv.classList.add("describe");
+
+            const mrtDiv = document.createElement("div");
+            mrtDiv.classList.add("mrt");
+            mrtDiv.innerText = attraction.mrt; 
+
+            const categoryDiv = document.createElement("div");
+            categoryDiv.classList.add("category");
+            categoryDiv.innerText = attraction.category; 
+
+            describeDiv.appendChild(mrtDiv);
+            describeDiv.appendChild(categoryDiv);
+
+            attractionBox.appendChild(imgDiv);
+            attractionBox.appendChild(describeDiv);
+
+            attractionsContainer.appendChild(attractionBox);
+        });
     } else {
         attractionsContainer.innerHTML = '<p>No results found.</p>';
     }
 }
+
 
 const container = document.getElementById("attractions");
 
@@ -218,27 +242,6 @@ function createAttraction(data) {
 	});
 }
 
-//* 更新 createAttraction 函数以追加景点信息
-function appendAttractions(newAttractions) {
-    const attractionsContainer = document.getElementById("attractions");
-    const attractionsHTML = newAttractions.map(attraction => {
-        return `
-            <div class="attraction_box">
-                <div class="img">
-                    <img src="${attraction.images[0]}" alt="${attraction.name}" />
-                    <div class="name">${attraction.name}</div>
-                </div>
-                <div class="describe">
-                    <div class="mrt">${attraction.mrt}</div>
-                    <div class="category">${attraction.category}</div>
-                </div>
-            </div>
-        `;
-    }).join('');
-    
-    attractionsContainer.innerHTML += attractionsHTML;
-	addEmpty(attractionsContainer.querySelectorAll(".attraction_box"));
-}
 window.addEventListener('scroll', handleScroll);
 
 let nextPage = 1; 
@@ -276,6 +279,50 @@ function loadNextPage() {
             });
     }
 }
+
+function appendAttractions(newAttractions) {
+    const attractionsContainer = document.getElementById("attractions");
+    
+    newAttractions.forEach(attraction => {
+        const attractionBox = document.createElement("div");
+        attractionBox.classList.add("attraction_box");
+        
+        const imgDiv = document.createElement("div");
+        imgDiv.classList.add("img");
+        
+        const img = document.createElement("img");
+        img.src = attraction.images[0];
+        img.alt = attraction.name;
+        
+        const nameDiv = document.createElement("div");
+        nameDiv.classList.add("name");
+        nameDiv.innerText = attraction.name;
+        
+        imgDiv.appendChild(img);
+        imgDiv.appendChild(nameDiv);
+        
+        const describeDiv = document.createElement("div");
+        describeDiv.classList.add("describe");
+        
+        const mrtDiv = document.createElement("div");
+        mrtDiv.classList.add("mrt");
+        mrtDiv.innerText = attraction.mrt;
+        
+        const categoryDiv = document.createElement("div");
+        categoryDiv.classList.add("category");
+        categoryDiv.innerText = attraction.category;
+        
+        describeDiv.appendChild(mrtDiv);
+        describeDiv.appendChild(categoryDiv);
+        
+        attractionBox.appendChild(imgDiv);
+        attractionBox.appendChild(describeDiv);
+        
+        attractionsContainer.appendChild(attractionBox);
+    });
+    addEmpty(attractionsContainer.querySelectorAll(".attraction_box"));
+}
+
 
 function handleScroll() {
     const scrollY = window.scrollY;
