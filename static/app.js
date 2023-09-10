@@ -5,7 +5,8 @@ const RBtn = document.getElementById("list-Rbtn");
 let mrtsData = [];
 let startIndex = 0;
 let numVisibleMrts = 14; // Default value for larger screens
-let scrollAmount = 10; // Define scrollAmount here
+let scrollAmount = 7; // Define scrollAmount here
+let itemWidth = 80;
 // Check screen width and update numVisibleMrts if needed
 function updateNumVisibleMrts() {
 	if (window.innerWidth <= 360) {
@@ -54,19 +55,30 @@ fetch('/api/mrts')
 
 	renderMrts();
 
-	function scrollLeft() {
-		if (startIndex >= 1) { 
-			startIndex -= scrollAmount;
-			renderMrts();
-		}
-	}
-	
-	function scrollRight() {
-		if (startIndex + numVisibleMrts < mrtsData.length - 1) {
-			startIndex += scrollAmount;
-			renderMrts();
-		}
-	}
+    function scrollLeft() {
+        if (startIndex >= 1) { 
+            startIndex -= scrollAmount;
+            const scrollValue = startIndex * itemWidth; // 计算滚动值
+            mrtsContainer.scrollTo({
+                left: scrollValue,
+                behavior: "smooth"
+            });
+            renderMrts();
+        }
+    }
+    
+    function scrollRight() {
+        if (startIndex + numVisibleMrts < mrtsData.length - 1) {
+            startIndex += scrollAmount;
+            const scrollValue = startIndex * itemWidth; // 计算滚动值
+            mrtsContainer.scrollTo({
+                left: scrollValue,
+                behavior: "smooth"
+            });
+            renderMrts();
+        }
+    }
+    
 	
 	function renderMrts() {
 		const visibleMrts = mrtsData.slice(startIndex, startIndex + numVisibleMrts);
@@ -346,3 +358,5 @@ function addEmpty(attractions) {
         `;
     }
 }
+
+
