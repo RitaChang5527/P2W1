@@ -146,10 +146,12 @@ main .list .list-bar .list-Rbtn {
   border: 0px;
 }
 main .list .list-bar .mrts {
+  width: 1100px;
   display: flex;
   align-items: center;
-  justify-content: center;
   flex-grow: 1;
+  white-space: nowrap;
+  overflow-x: hidden;
 }
 main .list .list-bar .mrt-item {
   height: 24px;
@@ -240,6 +242,7 @@ footer .foot {
   }
   main .list .list-bar .mrts {
     white-space: nowrap;
+    width: 90%;
   }
   main .list .list-bar .mrts .mrt-item {
     padding: 7px;
@@ -285,6 +288,7 @@ footer .foot {
   }
   main .list .list-bar .mrts {
     white-space: nowrap;
+    width: 80%;
   }
   main .list .list-bar .mrts .mrt-item {
     padding: 5px;
@@ -323,6 +327,9 @@ footer .foot {
     width: 90%;
   }
   main .list .list-bar {
+    width: 90%;
+  }
+  main .list .list-bar .mrts {
     width: 90%;
   }
   main .list .list-bar .mrts .mrt-item {

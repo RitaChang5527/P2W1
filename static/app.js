@@ -1,39 +1,36 @@
 const mrtsContainer = document.getElementById("mrts");
 const LBtn = document.getElementById("list-Lbtn");
 const RBtn = document.getElementById("list-Rbtn");
-
 let mrtsData = [];
 let startIndex = 0;
-let numVisibleMrts = 14; // Default value for larger screens
-let scrollAmount = 8; // Define scrollAmount here
-let itemWidth = 80;
-// Check screen width and update numVisibleMrts if needed
-function updateNumVisibleMrts() {
-	if (window.innerWidth <= 360) {
-		numVisibleMrts = 4;
-		scrollAmount = 4; // Adjust for screens with width 360px or less
-	} else if (window.innerWidth > 360 && window.innerWidth <= 600) {
-		numVisibleMrts = 5;
-		scrollAmount = 5; // Adjust for screens with width between 360px and 600px
-	} else if (window.innerWidth <= 1200) {
-		numVisibleMrts =7; // Adjust for screens with width between 600px and 1200px
-		scrollAmount = 7;
-	} else {
-		numVisibleMrts = 14;
-		scrollAmount = 10; // Default value for larger screens
-	}
-	renderMrts(); // Re-render the MRT items when the screen size changes
-}
+let numVisibleMrts = 33; 
+let scrollAmount = 4; 
+let itemWidth = 100;
 
-window.addEventListener("resize", updateNumVisibleMrts);
+window.addEventListener("resize", renderMrts);
 
 LBtn.addEventListener("click", function () {
     console.log("左按钮");
-    scrollLeft();
+    const scrollDistance = -scrollAmount * itemWidth;
+    console.log(scrollDistance);
+
+    mrtsContainer.scrollBy({
+        left: -scrollAmount * itemWidth,
+        behavior: "smooth"
+    });
+    
 });
+
 RBtn.addEventListener("click", function () {
-    console.log("右按钮");
-    scrollRight();
+    console.log("右按钮"); 
+
+    const scrollDistance = scrollAmount * itemWidth;
+    console.log(scrollDistance);
+
+    mrtsContainer.scrollBy({
+        left: scrollDistance,
+        behavior: "smooth"
+    });
 });
 
 fetch('/api/mrts')
@@ -46,59 +43,34 @@ fetch('/api/mrts')
     })
     .then(data => {
         mrtsData = data.data;
-		
+        console.log("mrt:",mrtsData)
         renderMrts();
     })
     .catch(error => {
         console.error('Error:', error);
     });
 
-	renderMrts();
+renderMrts();
 
-    function scrollLeft() {
-        if (startIndex >= 1) { 
-            startIndex -= scrollAmount;
-            const scrollValue = startIndex * itemWidth; // 计算滚动值
-            mrtsContainer.scrollTo({
-                left: scrollValue,
-                behavior: "smooth"
-            });
-            renderMrts();
-        }
-    }
-    
-    function scrollRight() {
-        if (startIndex + numVisibleMrts < mrtsData.length - 1) {
-            startIndex += scrollAmount;
-            const scrollValue = startIndex * itemWidth; // 计算滚动值
-            mrtsContainer.scrollTo({
-                left: scrollValue,
-                behavior: "smooth"
-            });
-            renderMrts();
-        }
-    }
-    
-	
-	function renderMrts() {
-		const visibleMrts = mrtsData.slice(startIndex, startIndex + numVisibleMrts);
-		const mrtsHTML = visibleMrts.map(mrt => {
-			return `<div class="mrt-item">${mrt}</div>`;
-		}).join('');
-		mrtsContainer.innerHTML = mrtsHTML;
-	
-		// 在每个 mrt-item 上添加点击事件处理程序
-		const mrtItems = document.querySelectorAll(".mrt-item");
-		mrtItems.forEach(item => {
-			item.addEventListener("click", function () {
-				const selectedMrt = item.textContent;
-				const searchInput = document.getElementById("search");
-				searchInput.value = selectedMrt;
-				searchAttractions(selectedMrt);
-			});
-		});
-		
-	}
+function renderMrts() {
+    const visibleMrts = mrtsData.slice(startIndex, startIndex + numVisibleMrts);
+    const mrtsHTML = visibleMrts.map(mrt => {
+        console.log(visibleMrts)
+        return `<div class="mrt-item">${mrt}</div>`;
+    }).join('');
+    mrtsContainer.innerHTML = mrtsHTML;
+
+    const mrtItems = document.querySelectorAll(".mrt-item");
+    mrtItems.forEach(item => {
+        item.addEventListener("click", function () {
+            const selectedMrt = item.textContent;
+            const searchInput = document.getElementById("search");
+            searchInput.value = selectedMrt;
+            searchAttractions(selectedMrt);
+        });
+    });
+}
+
 
 function searchAttractions(searchText) {
 	fetch(`/api/attractions?page=0&keyword=${searchText}`)

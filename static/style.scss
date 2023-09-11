@@ -154,10 +154,14 @@ main{
             }
     
             .mrts {
+                width: calc(11 * 100px);
                 display: flex;
                 align-items: center;
-                justify-content: center;
+                //justify-content: center;
                 flex-grow: 1; 
+                white-space: nowrap; 
+                overflow-x: hidden;
+                
             }
     
             .mrt-item {
@@ -262,6 +266,7 @@ footer{
                 width: 90%;
                 .mrts{
                     white-space: nowrap;
+                    width: 90%;
                     .mrt-item{
                         padding: 7px;
                     }
@@ -316,6 +321,7 @@ footer{
                 width: 80%;
                 .mrts{
                     white-space: nowrap;
+                    width: 80%;
                     .mrt-item{
                         padding: 5px;
                     }
@@ -371,6 +377,7 @@ footer{
             .list-bar{
                 width: 90%;
                 .mrts{
+                    width: 90%;
                     .mrt-item{
                         padding: 2px;
                     }
