@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Taipei Day Trip</title>
+    <link rel="stylesheet" href="../static/CSS/attraction/attraction.css" />
+</head>
+
+<body>
+    <header>
+        <div class="head">
+            <div class="left">台北一日遊</div>
+            <div class="right">
+                <div class="item">預定行程</div>
+                <div class="item">登入/註冊</div>
+            </div>
+        </div>
+    </header>
+    <section>
+        <div class="form">
+            <div class="formContainer">
+                <div class="formL">
+                    <div class="image-container">
+                        <img id="imageElement">
+                    </div>
+                    <button id="prevButton"></button>
+                    <button id="nextButton"></button>
+                    <div class="dotContainer" id="dotContainer"></div>
+                </div>
+                <div class="formR">
+                    <div class="name"></div>
+                    <div class="position"></div>
+                    <div class="bookingForm">
+                        <div class="bookingTitle">訂購導覽行程</div>
+                        <div class="bookingInfo">以此景點為中心的一日行程，帶您探索城市角落故事</div>
+                        <div class="date">
+                            <div class="dateTitle">選擇日期：</div>
+                            <div class="dateForm">
+                                <input type="date" id="dateInput"placeholder="yyyy/mm/dd"  />
+                            </div>
+                        </div>
+                        <div class="time">
+                            <div class="timeTitle">選擇時間：</div>
+                            <div class="morning">
+                                <img id="morningOption" src="../static/CSS/attraction/img/TimeUnselect.png">
+                                <div class="morningTitle">上半天</div>
+                            </div>
+                            <div class="afternoon">
+                                <img id="afternoonOption" src="../static/CSS/attraction/img/TimeUnselect.png">
+                                <div class="afternoonTitle">下半天</div>
+                            </div>
+                        </div>
+                        <div class="fee">
+                            <div class="feeTitle">導覽費用：</div>
+                            <div class="money"></div>
+                        </div>
+                        <button class="forBooking">開始預約行程</button>
+                    </div>
+                </div>
+            </div>
+            </div>
+        <div class="lineContainer">
+            <hr class="line">
+        </div>
+        
+        <div class="infors">
+            <div class="infoContainer">
+                <div class="description"></div>
+                <div class="address">
+                    <div class="addressTitle">景點地址：</div>
+                    <div class="addressInfo"></div>
+                </div>
+                <div class="transport">
+                    <div class="transportTitle">交通方式：</div>
+                    <div class="transportInfo"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="foot">COPYRIGHT © 2021 台北一日遊</div>
+    </footer>
+    <script src="../static/JS/attraction.js"></script>
+</body>
+</html>
