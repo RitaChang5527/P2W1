@@ -59,16 +59,13 @@ section .form .formContainer {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 40px;
 }
 section .form .formContainer .formL {
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-}
-section .form .formContainer .formL .image-container {
-  width: 100%;
-  white-space: nowrap;
 }
 section .form .formContainer .formL .image-container img {
   width: 540px;
@@ -81,7 +78,7 @@ section .form .formContainer .formL #prevButton {
   width: 36px;
   height: 36px;
   opacity: 75%;
-  left: 40px;
+  left: 15px;
   border: 0px;
   position: absolute;
   border-radius: 100px;
@@ -92,7 +89,7 @@ section .form .formContainer .formL #nextButton {
   height: 36px;
   opacity: 75%;
   border: 0px;
-  right: 40px;
+  right: 15px;
   position: absolute;
   border-radius: 100px;
 }
@@ -279,11 +276,9 @@ section .form .formContainer .formR .forBooking {
 .lineContainer {
   display: flex;
   justify-content: center;
-  margin-top: 37px;
 }
 .lineContainer .line {
   border: 1px solid #E8E8E8;
-  margin: 10px 0;
   width: 1200px;
   display: flex;
   justify-content: center;
@@ -353,6 +348,7 @@ footer {
 footer .foot {
   color: #FFFFFF;
   font-family: Noto Sans TC;
+  font-weight: bold;
   font-size: 16px;
   line-height: 14px;
 }
@@ -361,19 +357,22 @@ footer .foot {
   header .head {
     width: 90%;
   }
-  section .form .formContainer .formL {
-    width: 70%;
-  }
-  section .form .formContainer .formL img {
+  section .form .formContainer .formL .image-container {
     width: 90%;
+  }
+  section .form .formContainer .formL .image-container img {
+    width: 100%;
     -o-object-fit: cover;
        object-fit: cover;
   }
-  section .form .formContainer .formR {
-    width: 95%;
+  section .form .formContainer .formL #nextButton {
+    right: 40px;
+  }
+  section .form .formContainer .formL #prevButton {
+    left: 40px;
   }
   section .form .formContainer .formR .bookingForm {
-    width: 90%;
+    width: 95%;
   }
   section .form .formContainer .formR .bookingForm .date {
     width: 90%;
@@ -397,16 +396,16 @@ footer .foot {
   section .form .formContainer .formL {
     width: 100%;
   }
-  section .form .formContainer .formL img {
+  section .form .formContainer .formL .image-container img {
     width: 100%;
     -o-object-fit: cover;
        object-fit: cover;
   }
   section .form .formContainer .formL #nextButton {
-    right: 5px;
+    right: 40px;
   }
   section .form .formContainer .formL #prevButton {
-    left: 5px;
+    left: 40px;
   }
   section .form .formContainer .formR {
     width: 95%;
@@ -446,12 +445,6 @@ footer .foot {
     width: 100%;
     -o-object-fit: cover;
        object-fit: cover;
-  }
-  section .form .formContainer .formL #nextButton {
-    right: 5px;
-  }
-  section .form .formContainer .formL #prevButton {
-    left: 5px;
   }
   section .form .formContainer .formR {
     width: 95%;

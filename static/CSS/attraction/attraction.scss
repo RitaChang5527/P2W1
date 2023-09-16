@@ -58,6 +58,7 @@ section{
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 40px;
             .formL{
                 display: flex;
                 align-items: center;
@@ -65,9 +66,6 @@ section{
                 position: relative;
 
                 .image-container{
-                    width: 100%;
-                    //overflow:scroll;
-                    white-space: nowrap;
                     img{
                         width: 540px;
                         height: 406px;
@@ -80,7 +78,7 @@ section{
                     width: 36px;
                     height: 36px;
                     opacity: 75%;
-                    left:40px;
+                    left:15px;
                     border: 0px;
                     position: absolute;
                     border-radius: 100px;
@@ -91,7 +89,7 @@ section{
                     height: 36px;
                     opacity: 75%;
                     border: 0px;
-                    right: 40px;
+                    right: 15px;
                     position: absolute;
                     border-radius: 100px;
                 }
@@ -285,10 +283,10 @@ section{
     .lineContainer{
         display: flex;
         justify-content: center;
-        margin-top: 37px;
+        //margin-top: 37px;
         .line {
             border: 1px solid #E8E8E8;
-            margin: 10px 0;
+            //margin: 10px 0;
             width: 1200px;
             display: flex;
             justify-content: center;
@@ -359,6 +357,7 @@ footer{
     .foot{
         color: #FFFFFF;
         font-family: Noto Sans TC;
+        font-weight:bold;
         font-size: 16px;
         line-height: 14px;
 
@@ -376,16 +375,23 @@ footer{
         .form{
             .formContainer{
                 .formL{
-                    width: 70%;
-                    img{
+                    .image-container{
                         width: 90%;
-                        object-fit:cover;
+                        img{
+                            width: 100%;
+                            object-fit:cover;
+                        }
+                    }
+                    #nextButton{
+                        right: 40px;
+                    }
+                    #prevButton{
+                        left: 40px;
                     }
                 }
                 .formR{
-                    width: 95%;
                     .bookingForm{
-                        width: 90%;
+                        width: 95%;
                         .date{
                             width: 90%;
                         }
@@ -421,15 +427,18 @@ footer{
                 width: 100%;
                 .formL{
                     width: 100%;
-                    img{
-                        width: 100%;
-                        object-fit:cover;
+                    .image-container{
+                        img{
+                            width: 100%;
+                            object-fit:cover;
+                        }
                     }
+
                     #nextButton{
-                        right: 5px;
+                        right: 40px;
                     }
                     #prevButton{
-                        left: 5px;
+                        left: 40px;
                     }
                 }
                 .formR{
@@ -481,12 +490,7 @@ footer{
                         width: 100%;
                         object-fit:cover;
                     }
-                    #nextButton{
-                        right: 5px;
-                    }
-                    #prevButton{
-                        left: 5px;
-                    }
+
                 }
                 .formR{
                     width: 95%;
