@@ -3,6 +3,165 @@
   margin: 0px;
 }
 
+.sign {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 3;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: none;
+}
+.sign .loginBox {
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #ffffff;
+  position: absolute;
+  width: 340px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 5px;
+  align-items: center;
+}
+.sign .loginBox .decorate {
+  width: 100%;
+  height: 10px;
+  background: linear-gradient(270deg, #337788 0%, #66aabb 100%);
+  border-radius: 5px 5px 0px 0px;
+}
+.sign .loginBox .loginTitle {
+  margin-top: 15px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 24px;
+}
+.sign .loginBox .loginTitle img {
+  position: absolute;
+  right: 17px;
+  top: 27px;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+.sign .loginBox .login .loginEmail,
+.sign .loginBox .login .loginPassword {
+  border-radius: 5px;
+  border: 1px solid #cccccc;
+  padding: 15px 15px;
+  width: 280px;
+  margin-left: 15px;
+}
+.sign .loginBox .login .loginEmail {
+  margin-top: 15px;
+  margin-left: 15px;
+}
+.sign .loginBox .login .loginPassword {
+  margin-top: 10px;
+  margin-left: 15px;
+}
+.sign .loginBox .login .loginBtn {
+  background-color: #448899;
+  color: #ffffff;
+  border: 0px;
+  padding: 10px 20px;
+  font-size: 19px;
+  border-radius: 5px;
+  width: 310px;
+  margin-top: 10px;
+  margin-left: 15px;
+}
+.sign .loginBox .login .notice1 {
+  text-align: center;
+  margin-top: 10px;
+}
+.sign .loginBox .login .notice1:hover {
+  cursor: pointer;
+}
+.sign .loginBox .login .message {
+  text-align: center;
+  color: red;
+  margin: 15px;
+}
+.sign .signupBox {
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #ffffff;
+  position: absolute;
+  width: 340px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  border-radius: 5px;
+  align-items: center;
+}
+.sign .signupBox .decorate {
+  width: 100%;
+  height: 10px;
+  background: linear-gradient(270deg, #337788 0%, #66aabb 100%);
+  border-radius: 5px 5px 0px 0px;
+}
+.sign .signupBox .signupTitle {
+  margin-top: 10px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 24px;
+}
+.sign .signupBox .signupTitle img {
+  position: absolute;
+  right: 17px;
+  top: 27px;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+.sign .signupBox .signup .signupEmail,
+.sign .signupBox .signup .signupName,
+.sign .signupBox .signup .signupPassword {
+  border-radius: 5px;
+  border: 1px solid #cccccc;
+  font-weight: 500;
+  padding: 15px 15px;
+  width: 280px;
+}
+.sign .signupBox .signup .signupEmail {
+  margin-top: 15px;
+  margin-left: 15px;
+}
+.sign .signupBox .signup .signupName {
+  margin-top: 10px;
+  margin-left: 15px;
+}
+.sign .signupBox .signup .signupPassword {
+  margin-top: 10px;
+  margin-left: 15px;
+}
+.sign .signupBox .signup .signupBtn {
+  background-color: #448899;
+  color: #ffffff;
+  border: 0px;
+  padding: 10px 15px;
+  font-size: 19px;
+  border-radius: 5px;
+  width: 310px;
+  margin-top: 10px;
+  margin-left: 15px;
+}
+.sign .signupBox .signup .notice2 {
+  text-align: center;
+  margin: 15px;
+}
+.sign .signupBox .signup .notice2:hover {
+  cursor: pointer;
+}
+.sign .signupBox .signup .message2 {
+  text-align: center;
+  color: red;
+  margin: 15px;
+}
+
 header {
   position: fixed;
   justify-content: center;
@@ -21,7 +180,10 @@ header .head {
   width: 1200px;
   justify-content: space-between;
 }
-header .head .left {
+header .head a {
+  text-decoration: none;
+}
+header .head a .left {
   flex: none;
   font-family: Noto Sans TC;
   font-size: 30px;
@@ -37,7 +199,9 @@ header .head .right {
   width: 175px;
   height: 34px;
 }
-header .head .right .item {
+header .head .right .item-booking,
+header .head .right .item-login,
+header .head .right .item-signout {
   flex: none;
   font-family: Noto Sans TC;
   justify-content: space-between;
@@ -279,6 +443,7 @@ section .form .formContainer .formR .forBooking {
 }
 .lineContainer .line {
   border: 1px solid #E8E8E8;
+  border-top: 0px;
   width: 1200px;
   display: flex;
   justify-content: center;
@@ -378,7 +543,7 @@ footer .foot {
     width: 90%;
   }
   section .lineContainer .line {
-    width: 90%;
+    width: 95%;
   }
   section .infors .infoContainer {
     width: 90%;
@@ -388,12 +553,18 @@ footer .foot {
   header .head {
     width: 90%;
   }
+  section {
+    margin-top: 54px;
+  }
   section .form .formContainer {
     display: flex;
     flex-direction: column;
     width: 100%;
   }
   section .form .formContainer .formL {
+    width: 100%;
+  }
+  section .form .formContainer .formL .image-container {
     width: 100%;
   }
   section .form .formContainer .formL .image-container img {
@@ -423,7 +594,7 @@ footer .foot {
     width: 40%;
   }
   section .lineContainer .line {
-    width: 90%;
+    width: 95%;
   }
   section .infors .infoContainer {
     width: 90%;
@@ -432,6 +603,9 @@ footer .foot {
 @media (max-width: 360px) {
   header .head {
     width: 90%;
+  }
+  section {
+    margin-top: 54px;
   }
   section .form .formContainer {
     display: flex;
@@ -469,7 +643,7 @@ footer .foot {
     margin-top: 185px;
   }
   section .lineContainer .line {
-    width: 90%;
+    width: 95%;
   }
   section .infors .infoContainer {
     width: 90%;

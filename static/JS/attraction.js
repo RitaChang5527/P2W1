@@ -5,64 +5,88 @@ const attractionId = attractionIdIndex !== -1 ? parts[attractionIdIndex + 1] : n
 
 //console.log('Id:', attractionId);
 
+check();
+
 fetch(`/api/attraction/${attractionId}`)
-  .then(response => {
-    if (response.status === 200) {
-        return response.json();
-    } else {
-        throw new Error('Failed to fetch attraction data');
+    .then(response => {
+        if (response.status === 200) {
+            return response.json();
+        } else {
+            throw new Error('Failed to fetch attraction data');
+            }
+    })
+    .then(data => {
+        //console.log('Data:', data);
+        
+        const nameElement = document.querySelector(".name");
+        const positionElement = document.querySelector(".position");
+        const descriptionElement = document.querySelector(".description");
+        const addressElement = document.querySelector(".addressInfo");
+        const transportElement = document.querySelector(".transportInfo");
+        const imgElement = document.getElementById("imageElement");
+
+        if (data.data.name) {
+            nameElement.textContent = data.data.name;
+        } else {
+            console.error('Name data is missing');
         }
-})
-  .then(data => {
-    //console.log('Data:', data);
-    
-    const nameElement = document.querySelector(".name");
-    const positionElement = document.querySelector(".position");
-    const descriptionElement = document.querySelector(".description");
-    const addressElement = document.querySelector(".addressInfo");
-    const transportElement = document.querySelector(".transportInfo");
-    const imgElement = document.getElementById("imageElement");
+        
+        if (data.data.category && data.data.mrt) {
+            const positionText = `${data.data.category} at ${data.data.mrt}`;
+            positionElement.textContent = positionText;
+            //console.log(positionText);
+        } else {
+            console.error('Position data is missing');
+        }
 
-    if (data.data.name) {
-        nameElement.textContent = data.data.name;
-    } else {
-        console.error('Name data is missing');
-    }
-    
-    if (data.data.category && data.data.mrt) {
-        const positionText = `${data.data.category} at ${data.data.mrt}`;
-        positionElement.textContent = positionText;
-        //console.log(positionText);
-    } else {
-        console.error('Position data is missing');
-    }
+        if (data.data.description) {
+            descriptionElement.textContent = data.data.description;
+        } else {
+            console.error('Description data is missing');
+        }
 
-    if (data.data.description) {
-        descriptionElement.textContent = data.data.description;
-    } else {
-        console.error('Description data is missing');
-    }
+        if (data.data.address) {
+            addressElement.textContent = data.data.address;
+        } else {
+            console.error('Address data is missing');
+        }
 
-    if (data.data.address) {
-        addressElement.textContent = data.data.address;
-    } else {
-        console.error('Address data is missing');
-    }
+        if (data.data.transport) {
+            transportElement.textContent = data.data.transport;
+        } else {
+            console.error('Transport data is missing');
+        }
 
-    if (data.data.transport) {
-        transportElement.textContent = data.data.transport;
-    } else {
-        console.error('Transport data is missing');
-    }
+        if (data.data.images) {
+            //console.log(data.data);
+            //console.log(data.data.images);
+            imgElement.src = data.data.images[0];
+        } else {
+            console.error('Img data is missing');
+        }
+    });
 
-    if (data.data.images) {
-        //console.log(data.data);
-        //console.log(data.data.images);
-        imgElement.src = data.data.images[0];
-    } else {
-        console.error('Img data is missing');
-    }
-});
+
+async function check() {
+    await fetch("/api/user/auth")
+    .then(function (response) {
+        console.log(response)
+        return response.json();
+        
+    })
+    .then(function (data) {
+        console.log(data)
+        if (data.data !== null) {
+            document.querySelector(".sign").style.display = "none";
+            document.querySelector(".item-login").style.display = "none";
+            document.querySelector(".item-signout").style.display = "block";
+        }else{
+            document.querySelector(".item-login").style.display = "block";
+            document.querySelector(".item-signout").style.display = "none";
+        }
+    });
+}
+
 
 //*time and fee
 const morningOption = document.getElementById("morningOption");
@@ -169,7 +193,6 @@ fetch(`/api/attraction/${attractionId}`)
     }
 
     createDots(images);
-    scrollImage();
 });
 
 

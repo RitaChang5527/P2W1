@@ -113,6 +113,7 @@ searchBar.addEventListener("input", function () {
             nextPage = data.nextPage;
             keyword = searchText; 
             console.log("[input] cur next page : " + nextPage + ", data next page : " + data.nextPage);
+
         })
         .catch(error => {
             console.error('Error:', error);
@@ -127,6 +128,8 @@ function renderAttractions(attractions) {
         attractions.forEach(attraction => {
             const attractionBox = document.createElement("div");
             attractionBox.classList.add("attraction_box");
+
+            attractionBox.setAttribute("data-attractionID", `${attraction.id}`);
 
             const imgDiv = document.createElement("div");
             imgDiv.classList.add("img");
@@ -161,10 +164,12 @@ function renderAttractions(attractions) {
 
             attractionsContainer.appendChild(attractionBox);
         });
+        
     } else {
         attractionsContainer.innerHTML = '<p>No results found.</p>';
     }
 }
+
 
 
 const container = document.getElementById("attractions");
@@ -195,7 +200,6 @@ function createAttraction(data) {
 
         //* 加ID
         attractionContainer.setAttribute("data-attractionID", id);
-
 		//* 圖片
 		let img = document.createElement("img");
 		img.src = attraction_image;
@@ -244,7 +248,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
-
 
 window.addEventListener('scroll', handleScroll);
 
