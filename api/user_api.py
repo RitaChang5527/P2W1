@@ -3,6 +3,8 @@ import mysql.connector.pooling
 import jwt
 import datetime
 from flask import make_response
+import json
+from flask import Flask, jsonify
 
 jwt_secret_key = "taipei-day-trip"
 
