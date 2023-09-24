@@ -8,13 +8,92 @@
     <link rel="stylesheet" href="../static/CSS/attraction/attraction.css" />
 </head>
 
+
+<div class="sign">
+    <div class="loginBox">
+        <div class="decorate"></div>
+        <div class="loginTitle">
+            登入會員帳號
+            <img
+            class="close1"
+            src="../static/CSS/index/img/close.png"
+            alt="close"
+            />
+        </div>
+        <div class="login">
+            <input
+                class="loginEmail"
+                type="text"
+                name="email"
+                id="login_email"
+                placeholder="輸入電子信箱"
+                required
+            />
+            <input
+                class="loginPassword"
+                type="password"
+                name="password"
+                id="login_password"
+                placeholder="輸入密碼"
+                required
+            />
+            <button class="loginBtn">登入帳戶</button>
+            <div class="notice1">還沒有帳戶？點此註冊</div>
+            <div class="message" id ="message"></div>
+        </div>
+    </div>
+
+    <div class="signupBox">
+        <div class="decorate"></div>
+        <div class="signupTitle">註冊會員帳號
+            <img
+                class="close2"
+                src="../static/CSS/index/img/close.png"
+                alt="close"
+            />
+        </div>
+        <div class="signup">
+            <input
+                class="signupName"
+                type="text"
+                name="name"
+                id="signup_name"
+                placeholder="輸入姓名"
+                required
+            />
+            <input
+            class="signupEmail"
+            type="email"
+            name="email"
+            id="signup_email"
+            placeholder="輸入電子信箱"
+            required
+            />
+            <input
+                class="signupPassword"
+                type="password"
+                name="password"
+                id="signup_password"
+                placeholder="輸入密碼"
+                required
+            />
+            <button type="submit" class="signupBtn">註冊帳戶</button>
+            <div class="notice2">已經有帳戶了？點此登入</div>
+            <div class="message2" id="message2"></div>
+        </div>
+    </div>
+</div>
+
 <body>
     <header>
         <div class="head">
-            <div class="left">台北一日遊</div>
+            <a href = "/">
+                <div class="left">台北一日遊</div>
+            </a>
             <div class="right">
-                <div class="item">預定行程</div>
-                <div class="item">登入/註冊</div>
+                <div class="item-booking">預定行程</div>
+                <div class="item-login">登入/註冊</div>
+                <div class="item-signout">登出</div>
             </div>
         </div>
     </header>
@@ -84,5 +163,6 @@
         <div class="foot">COPYRIGHT © 2021 台北一日遊</div>
     </footer>
     <script src="../static/JS/attraction.js"></script>
+    <script src="../static/JS/signin.js"></script>
 </body>
 </html>

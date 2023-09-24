@@ -2,6 +2,174 @@
     margin: 0px;
 }
 
+
+.sign {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 3;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: none;
+        .loginBox {
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #ffffff;
+            position: absolute;
+            width: 340px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-radius: 5px;
+            align-items: center;
+            .decorate {
+                width: 100%;
+                height: 10px;
+                background: linear-gradient(270deg, #337788 0%, #66aabb 100%);
+                border-radius: 5px 5px 0px 0px;
+                }
+                
+            .loginTitle {
+                margin-top: 15px;
+                text-align: center;
+                font-weight: 700;
+                font-size: 24px;
+                img{
+                    position: absolute;
+                    right: 17px;
+                    top: 27px;
+                    width: 16px;
+                    height: 16px;
+                    cursor: pointer;
+                }
+            }
+            .login{
+                .loginEmail,
+                .loginPassword{
+                    border-radius: 5px;
+                    border: 1px solid #cccccc;
+                    padding: 15px 15px;
+                    width: 280px;
+                    margin-left: 15px;
+                    }
+                .loginEmail{
+                    margin-top: 15px;
+                    margin-left: 15px;
+                }
+                .loginPassword{
+                    margin-top: 10px;
+                    margin-left: 15px;
+                }
+                .loginBtn {
+                    background-color: #448899;
+                    color: #ffffff;
+                    border: 0px;
+                    padding: 10px 20px;
+                    font-size: 19px;
+                    border-radius: 5px;
+                    width: 310px;
+                    margin-top: 10px;
+                    margin-left: 15px;
+                    }   
+                .notice1 {
+                    text-align: center;
+                    margin-top: 10px;
+                    }
+                .notice1:hover {
+                    cursor: pointer;
+                }
+                .message{
+                    text-align: center;
+                    color: red;
+                    margin: 15px;
+                }
+            }
+        }
+        .signupBox {
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #ffffff;
+            position: absolute;
+            width: 340px;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            border-radius: 5px;
+            align-items: center;
+            .decorate {
+                width: 100%;
+                height: 10px;
+                background: linear-gradient(270deg, #337788 0%, #66aabb 100%);
+                border-radius: 5px 5px 0px 0px;
+                }
+            .signupTitle {
+                margin-top: 10px;
+                text-align: center;
+                font-weight: 700;
+                font-size: 24px;
+                img{
+                    position: absolute;
+                    right: 17px;
+                    top: 27px;
+                    width: 16px;
+                    height: 16px;
+                    cursor: pointer;
+                }
+            }
+            .signup{
+                .signupEmail,
+                .signupName,
+                .signupPassword{
+                    border-radius: 5px;
+                    border: 1px solid #cccccc;
+                    font-weight: 500;
+                    padding: 15px 15px;
+                    width: 280px;
+                    }
+                .signupEmail{
+                    margin-top: 15px;
+                    margin-left: 15px;
+                }
+                .signupName{
+                    margin-top: 10px;
+                    margin-left: 15px;
+                }
+                .signupPassword{
+                    margin-top: 10px;
+                    margin-left: 15px;
+                }
+                .signupBtn {
+                    background-color: #448899;
+                    color: #ffffff;
+                    border: 0px;
+                    padding: 10px 15px;
+                    font-size: 19px;
+                    border-radius: 5px;
+                    width: 310px;
+                    margin-top: 10px;
+                    margin-left: 15px;
+                    }   
+                .notice2 {
+                    text-align: center;
+                    margin: 15px;
+                    }
+    
+                    
+                .notice2:hover {
+                    cursor: pointer;
+                }
+                
+                .message2 {
+                    text-align: center;
+                    color: red;
+                    margin: 15px;
+                }
+            }
+        }
+    }
+
 header {
     position: fixed;
     justify-content: center;
@@ -18,22 +186,27 @@ header {
         display: flex;
         width: 1200px;
         justify-content: space-between;
-        .left {
-            flex: none; 
-            font-family: Noto Sans TC;
-            font-size: 30px;
-            font-weight: 700;
-            line-height: 34px;
-            letter-spacing: 0em;
-            text-align: left;
-            color: #448899;
+        a{
+            text-decoration: none;
+            .left {
+                flex: none; 
+                font-family: Noto Sans TC;
+                font-size: 30px;
+                font-weight: 700;
+                line-height: 34px;
+                letter-spacing: 0em;
+                text-align: left;
+                color: #448899;
+            }
         }
         .right {
             display: flex; 
             align-items: center;
             width: 175px;
             height:34px;
-                .item {
+            .item-booking,
+            .item-login,
+            .item-signout{
                 flex: none; 
                 font-family: Noto Sans TC;
                 justify-content: space-between;
@@ -286,6 +459,7 @@ section{
         //margin-top: 37px;
         .line {
             border: 1px solid #E8E8E8;
+            border-top: 0px;
             //margin: 10px 0;
             width: 1200px;
             display: flex;
@@ -401,7 +575,7 @@ footer{
         }
         .lineContainer{
             .line{
-                width: 90%;
+                width: 95%;
             }
         }
         .infors{
@@ -420,6 +594,7 @@ footer{
         }
     }
     section{
+        margin-top: 54px;
         .form{
             .formContainer{
                 display: flex;
@@ -428,6 +603,7 @@ footer{
                 .formL{
                     width: 100%;
                     .image-container{
+                        width: 100%;
                         img{
                             width: 100%;
                             object-fit:cover;
@@ -460,7 +636,7 @@ footer{
         }
         .lineContainer{
             .line{
-                width: 90%;
+                width: 95%;
             }
         }
         .infors{
@@ -479,6 +655,7 @@ footer{
         }
     }
     section{
+        margin-top: 54px;
         .form{
             .formContainer{
                 display: flex;
@@ -518,7 +695,7 @@ footer{
         }
         .lineContainer{
             .line{
-                width: 90%;
+                width: 95%;
             }
         }
         .infors{
