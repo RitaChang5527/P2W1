@@ -218,7 +218,7 @@ section {
 section .bookingContainer {
   width: 1200px;
 }
-section .bookingContainer .helloContainer {
+section .bookingContainer .helloContainer .helloWords {
   font-family: Noto Sans TC;
   font-size: 19px;
   font-weight: bold;
@@ -315,8 +315,9 @@ section .bookingContainer .Booking .info .infoContainer .infoPhone .nameTitle,
 section .bookingContainer .Booking .info .infoContainer .infoPhone .emailTitle,
 section .bookingContainer .Booking .info .infoContainer .infoPhone .phoneTitle {
   font-family: Noto Sans TC;
-  font-size: 16px;
+  font-size: 19px;
   font-style: normal;
+  font-weight: bold;
   color: #666666;
 }
 section .bookingContainer .Booking .info .infoContainer .infoName .inputName,
@@ -389,21 +390,27 @@ section .bookingContainer .Booking .creditcard .creditcardContainer .inputCvv {
   background: var(--White, #FFF);
 }
 section .bookingContainer .Booking .total {
-  margin-top: 40px;
-}
-section .bookingContainer .Booking .total .totalContainer {
-  width: 980px;
+  margin: 40px 0px;
   display: flex;
   justify-content: end;
 }
 section .bookingContainer .Booking .total .totalContainer .totalName {
-  display: flex;
-  justify-content: end;
   font-family: Noto Sans TC;
   font-size: 16px;
   font-style: normal;
   font-weight: bold;
   color: #666666;
+}
+section .bookingContainer .Booking .total .totalContainer .totalBtn {
+  margin-top: 35px;
+  font-family: Noto Sans TC;
+  font-size: 19px;
+  font-style: normal;
+  background-color: #448899;
+  color: #FFF;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
 }
 
 footer {

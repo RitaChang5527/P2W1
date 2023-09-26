@@ -2,9 +2,7 @@ from flask import *
 import mysql.connector.pooling
 import jwt
 import datetime
-from flask import make_response
-import json
-from flas 
+from flask import make_response,jsonify
 
 jwt_secret_key = "taipei-day-trip"
 
@@ -107,7 +105,7 @@ def login():
                 print(token)
                 print("2")
                 response = make_response(jsonify({"ok": True, "token": token}))
-                response.set_cookie("token", value=token, expires=expiration_time)
+                # response.set_cookie("token", value=token, expires=expiration_time)
                 return response, 200
             else:
                 print("login fail")
@@ -124,13 +122,20 @@ def login():
 @user.route("/api/user/auth", methods=["GET"])
 def member():
     print("member0")
+    auth_header = request.headers.get("Authorization")
+    print(auth_header)
     try:
         conn = mysql.connector.connect(**db_config)
         cursor = conn.cursor()
         print("member connected")
         result = {"data": None}
-        cookie = request.cookies
-        token = cookie.get("token")
+        # cookie = request.cookies
+        # token = cookie.get("token")
+
+        token=auth_header.split(" ")[1]
+        print("token : "+token)
+        # token = auth_header.split(" ")[1]
+        # print(token)
         if token == None:
             print("data none")
             return jsonify({"data": None})
@@ -160,7 +165,7 @@ def member():
 def signout():
     try:
         response = make_response(jsonify({"ok": True}))
-        response.delete_cookie("token")
+        # response.delete_cookie("token")
         return response, 200
     except:
         return jsonify({"error": "true"}), 500

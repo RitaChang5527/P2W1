@@ -1,6 +1,7 @@
 from flask import Flask,render_template
 from api.attraction_api import attraction
 from api.user_api import user
+from api.booking_api import booking
 app = Flask(
     __name__,
     static_folder="static")
@@ -11,6 +12,7 @@ app.json.ensure_ascii = False
 
 app.register_blueprint(attraction)
 app.register_blueprint(user)
+app.register_blueprint(booking)
 
 # Pages
 @app.route("/")

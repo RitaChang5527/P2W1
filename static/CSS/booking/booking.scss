@@ -225,11 +225,13 @@ section{
     .bookingContainer{
         width: 1200px;
         .helloContainer{
-            font-family: Noto Sans TC;
-            font-size: 19px;
-            font-weight:bold;
-            font-style: normal;
-            color: #666666;
+            .helloWords{
+                font-family: Noto Sans TC;
+                font-size: 19px;
+                font-weight:bold;
+                font-style: normal;
+                color: #666666;
+            }
         }
         .UnBooking{
             width: 980px;
@@ -257,7 +259,7 @@ section{
                             color:#448899 ;
                             font-family: Noto Sans TC;
                             font-size: 16px;
-                            font-weight:bold;
+                            font-weight: bold;
                             font-style: normal;
                             display: flex;
                             justify-content: space-between;
@@ -317,9 +319,10 @@ section{
                         .emailTitle,
                         .phoneTitle{
                             font-family: Noto Sans TC;
-                            font-size: 16px;
+                            font-size: 19px;
                             font-style: normal;
-                            color: #666666
+                            font-weight: bold;
+                            color: #666666;
                         }
                         .inputName,
                         .inputEmail,
@@ -388,19 +391,27 @@ section{
                 }
             }
             .total{
-                margin-top: 40px;
+                margin: 40px 0px;
+                display: flex;
+                justify-content:end ;
                 .totalContainer{
-                    width: 980px;
-                    display: flex;
-                    justify-content:end ;
                     .totalName{
-                        display: flex;
-                        justify-content:end ;
                         font-family: Noto Sans TC;
                         font-size: 16px;
                         font-style: normal;
                         font-weight: bold;
                         color: #666666;
+                    }
+                    .totalBtn{
+                        margin-top: 35px;
+                        font-family: Noto Sans TC;
+                        font-size: 19px;
+                        font-style: normal;
+                        background-color:#448899;
+                        color: #FFF;
+                        border: none;
+                        padding: 10px 20px;
+                        border-radius: 5px;
                     }
                 }
             }
@@ -422,6 +433,5 @@ footer{
         font-weight:bold;
         font-size: 16px;
         line-height: 14px;
-
     }
 }
