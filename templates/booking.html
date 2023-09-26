@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Taipei Day Trip</title>
+    <link rel="stylesheet" href="../static/CSS/booking/booking.css" />
+</head>
+
+
+<div class="sign">
+    <div class="loginBox">
+        <div class="decorate"></div>
+        <div class="loginTitle">
+            登入會員帳號
+            <img
+            class="close1"
+            src="../static/CSS/index/img/close.png"
+            alt="close"
+            />
+        </div>
+        <div class="login">
+            <input
+                class="loginEmail"
+                type="text"
+                name="email"
+                id="login_email"
+                placeholder="輸入電子信箱"
+                required
+            />
+            <input
+                class="loginPassword"
+                type="password"
+                name="password"
+                id="login_password"
+                placeholder="輸入密碼"
+                required
+            />
+            <button class="loginBtn">登入帳戶</button>
+            <div class="notice1">還沒有帳戶？點此註冊</div>
+            <div class="message" id ="message"></div>
+        </div>
+    </div>
+
+    <div class="signupBox">
+        <div class="decorate"></div>
+        <div class="signupTitle">註冊會員帳號
+            <img
+                class="close2"
+                src="../static/CSS/index/img/close.png"
+                alt="close"
+            />
+        </div>
+        <div class="signup">
+            <input
+                class="signupName"
+                type="text"
+                name="name"
+                id="signup_name"
+                placeholder="輸入姓名"
+                required
+            />
+            <input
+            class="signupEmail"
+            type="email"
+            name="email"
+            id="signup_email"
+            placeholder="輸入電子信箱"
+            required
+            />
+            <input
+                class="signupPassword"
+                type="password"
+                name="password"
+                id="signup_password"
+                placeholder="輸入密碼"
+                required
+            />
+            <button type="submit" class="signupBtn">註冊帳戶</button>
+            <div class="notice2">已經有帳戶了？點此登入</div>
+            <div class="message2" id="message2"></div>
+        </div>
+    </div>
+</div>
+
+<body>
+    <header>
+        <div class="head">
+            <a href = "/">
+                <div class="left">台北一日遊</div>
+            </a>
+            <div class="right">
+                <div class="item-booking">預定行程</div>
+                <div class="item-login">登入/註冊</div>
+                <div class="item-signout">登出</div>
+            </div>
+        </div>
+    </header>
+
+    <section>
+        <div class="bookingContainer">
+            <div class="helloContainer">
+                <div class="helloWords">
+                    您好，<div class="signinName"></div>，待預定的行程如下：
+                </div>
+            </div>
+
+            <div class="UnBooking">目前沒有任何預定的行程</div>
+            
+            <div class="Booking">
+                <div class="descripContainer">
+                    <div class="right">
+                        <img class="item_img" src="" alt="" />
+                    </div>
+                    <div class="left">
+                        <div class="bookingDescrip">
+                            <div class="bookingTitle">
+                                台北一日遊：<div class="titleAttraction"></div>
+                                <img src="../static/CSS/booking/img/icon_delete.png"/>
+                            </div>
+                            <div class="contentAttraction">
+                                <div class="bookingDate">
+                                    日期：<div class="date"></div>
+                                </div>
+                                <div class="bookingTime">
+                                    時間：<div class="time"></div>
+                                </div>
+                                <div class="bookingPrice">
+                                    費用：<div class="price"></div>
+                                </div>
+                                <div class="bookingLocation">
+                                    地點：<div class="address"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lineContainer">
+                    <hr class="line">
+                </div>
+                <div class="info">
+                    <div class="infoContainer">
+                        <div class="contactTitle">您的聯絡資訊</div>
+                        <div class="infoName">
+                            <div class="nameTitle">聯絡姓名：</div>
+                            <input
+                                class="inputName"
+                                type="text"
+                                name="name"
+                                id="name"
+                                required
+                            />
+                        </div>
+                        <div class="infoEmail">
+                            <div class="emailTitle">聯絡信箱：</div>
+                            <input
+                                class="inputEmail"
+                                type="email"
+                                name="email"
+                                id="email"
+                                required
+                            />
+                        </div>
+                        <div class="infoPhone">
+                            <div class="phoneTitle">聯絡電話：</div>
+                            <input
+                                class="inputPhone"
+                                type="text"
+                                name="phone"
+                                id="phone"
+                                pattern="[0-9]{4}-[0-9]{3}-[0-9]{3}"
+                                minlength="10"
+                                maxlength="10"
+                                required
+                            />
+                        </div>
+                        <div class="phoneNotice">
+                            請保持手機暢通，準時到達，導覽人員將用手機與您聯絡，務必留下正確的聯絡方式。
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lineContainer">
+                    <hr class="line">
+                </div>
+                <div class="creditcard">
+                    <div class="creditcardContainer">
+                        <div class="creditcardTitle">信用卡付款資訊</div>
+                        <div class="creditcardNum">
+                            <div class="numTitle">卡片號碼：</div>
+                            <input 
+                            class="inputNum" 
+                            name="credit-number"  
+                            type="text"
+                            pattern="\d*" 
+                            maxlength="16" 
+                            placeholder="**** **** **** ****"
+                            />
+                        </div>
+                        <div class="creditcardExp">
+                            <div class="expTitle">過期時間：</div>
+                            <input 
+                            name="credit-expires" 
+                            class="inputExpires" 
+                            type="text" 
+                            pattern="\d*" 
+                            maxlength="7" 
+                            placeholder="MM / YY"
+                            />
+                        </div>
+                        <div class="creditcardCvv">
+                            <div class="cvvTitle">驗證密碼：</div>
+                            <input 
+                            name="credit-Cvv" 
+                            class="inputCvv" 
+                            type="text" 
+                            pattern="\d*" 
+                            maxlength="3" 
+                            placeholder="CVV"
+                            />
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="lineContainer">
+                    <hr class="line">
+                </div>
+                <div class="total">
+                    <div class="totalContainer">
+                        <div class="totalName">總價：
+                            <div class="totalPrice"></div>
+                        </div>
+                        <button class="totalBtn">確認訂購並付款</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer>
+        <div class="foot">COPYRIGHT © 2021 台北一日遊</div>
+    </footer>
+    <script src="../static/JS/attraction.js"></script>
+    <script src="../static/JS/signin.js"></script>
+</body>
+</html>

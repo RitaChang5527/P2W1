@@ -4,7 +4,7 @@ import jwt
 import datetime
 from flask import make_response
 import json
-from flask import Flask, jsonify
+from flas 
 
 jwt_secret_key = "taipei-day-trip"
 
