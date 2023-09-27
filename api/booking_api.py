@@ -11,12 +11,13 @@ db_config = {
 }
 pool = mysql.connector.pooling.MySQLConnectionPool(pool_name="attractions_pool", pool_size=10, **db_config)
 
-jwt_secret_key = "taipei-day-trip"
-
 booking = Blueprint("booking", __name__)
 
 @booking.route("/api/booking", methods=['GET'])
 def get_bookingData():
+    conn = pool.get_connection()
+    cursor = conn.cursor(dictionary=True)
+    print("connected")
     try:
         result = {"data": {"attraction": {"id": "", "name": "", "address": "", "image": ""}, "date": "", "time": "", "price": ""}}
         auth_header = request.headers.get("Authorization")
@@ -28,30 +29,31 @@ def get_bookingData():
         else:
             id = decode["id"]
             print(id)
+
             query = """
                     SELECT
                         attractions.id,
                         attractions.name,
                         attractions.address,
-                        attractions.images AS attraction_image,
-                        DATE_FORMAT(booking.date, '%%Y-%%m-%%d') AS booking_date,
-                        booking.time,
+                        attraction_images.image_url,
+                        DATE_FORMAT(booking.book_date, '%Y-%m-%d') AS booking_date,
+                        booking.book_time,
                         booking.price
                     FROM
                         attractions
                     INNER JOIN
                         booking ON booking.attraction_id = attractions.id
                     INNER JOIN
-                        users ON booking.user_id = users.id
+                        attraction_images ON attractions.id = attraction_images.attraction_id
                     WHERE
-                        users.id = %s
+                        user_id = %s
                     ORDER BY
-                        booking.order_time DESC;
+                        book_time DESC;
                 """
-            conn = pool.get_connection()
-            cursor = conn.cursor(dictionary=True)
             cursor.execute(query, (id,))
+            print("user_id")
             record = cursor.fetchone()
+            print("11id" + id)
 
             result["data"]["attraction"]["id"] = record["id"]
             result["data"]["attraction"]["name"] = record["name"]
@@ -68,27 +70,85 @@ def get_bookingData():
         cursor.close()
         conn.close()
 
-# @ booking.route("/api/booking", methods=["POST"])
-# def create_bookingData():
-#         conn = pool.get_connection()
-#         cursor = conn.cursor(dictionary=True)
-#         try:
-#             data = request.get_json()
-#             member_id = data["member_id"]
-#             attraction_id = data["attractionID"]
-#             date = data["date"]
-#             time = data["time"]
-#             price = data["price"]
+@ booking.route("/api/booking", methods=["POST"])
+def create_bookingData():
 
-#             auth_header = request.headers.get("Authorization")
-#             token=auth_header.split(" ")[1]
-#             decode = jwt.decode(token, "taipei-day-trip", algorithms=["HS256"])
-#         if decode == None:
-#             return jsonify({"error": True, "message": "未登入系統，拒絕存取"}, 403)
-#         elif member_id == "" or attraction_id == "" or date == "" or time == "":
-#             return jsonify({"error": True, "message": "輸入資料有誤，請重新點選"}, 400)
-#         else:
-#             query = ("SELECT * FROM booking WHERE member_id=%s;")
-#             cursor.execute(query, (member_id,))
-#             member_data = cursor.fetchone()
-#             conn.commit()
+    try:
+        conn = mysql.connector.connect(**db_config)
+        cursor = conn.cursor()
+        print("connected")
+        print("1")
+        data = request.get_json()
+        print("11")
+        users_id = data["member_id"]
+        print("111")
+        attraction_id = data["attractionID"]
+        date = data["date"]
+        time = data["time"]
+        price = data["price"]
+
+        print(users_id)
+        print(attraction_id)
+        print(date)
+        print(time)
+        print(price)
+
+        print("2")
+        auth_header = request.headers.get("Authorization")
+        token = auth_header.split(" ")[1]
+        decode = jwt.decode(token, "taipei-day-trip", algorithms=["HS256"])
+        print("3")
+        if decode == None:
+            return jsonify({"error": True, "message": "未登入系統，拒絕存取"}, 403)
+        elif users_id == "" or attraction_id == "" or date == "" or time == "":
+            return jsonify({"error": True, "message": "輸入資料有誤，請重新點選"}, 400)
+        
+        else:
+            print("4")
+            query = ("SELECT * FROM booking WHERE user_id=%s;")
+            print("44")
+            cursor.execute(query, (users_id,))
+            print("444")
+            member_data = cursor.fetchone()
+            print(member_data)
+            conn.commit()
+
+            print("5")
+            #如果沒資料就創建
+            if member_data == None:
+                print("55")
+                query_select1= ("INSERT INTO booking(user_id, attraction_id,book_date,book_time,price) VALUES ( %s, %s, %s, %s, %s);")
+                print("555")
+                cursor.execute(query_select1, (users_id, attraction_id, date, time, price))
+                #cursor.fetchall()
+                conn.commit()
+                print(type(users_id))
+                print(type(attraction_id))
+                print(type(date))
+                print(type(time))
+                print(type(price))
+                print("5555")
+                print("55555")
+
+                return jsonify({"ok": True})
+            #有資料就刪掉覆蓋          
+            else:
+                print("6")
+                query2 = ("DELETE FROM booking WHERE user_id=%s;")
+                print("66")
+                cursor.execute(query2, (users_id,))
+                print("666")
+                conn.commit()
+                print("6666")
+                query3 = ("INSERT INTO booking(user_id, attraction_id,book_date,book_time,price) VALUES ( %s, %s, %s, %s, %s);")
+                cursor.execute(query3, (users_id, attraction_id, date, time, price))
+                conn.commit()
+                return jsonify({"ok": True})
+    except:
+        return jsonify({"error": True, "message": "伺服器錯誤"}), 500
+    finally:
+        print("88")
+        cursor.close()
+        print("888")
+        conn.close()
+        print("8888")
