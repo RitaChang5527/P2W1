@@ -2,7 +2,7 @@ from flask import *
 import mysql.connector.pooling
 import traceback 
 import json
-
+from flask import Blueprint, jsonify
 
 db_config = {
     "host": "127.0.0.1",

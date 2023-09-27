@@ -66,26 +66,36 @@ fetch(`/api/attraction/${attractionId}`)
         }
     });
 
-
-async function check() {
-    await fetch("/api/user/auth")
-    .then(function (response) {
-        console.log(response)
-        return response.json();
-        
-    })
-    .then(function (data) {
-        console.log(data)
-        if (data.data !== null) {
-            document.querySelector(".sign").style.display = "none";
-            document.querySelector(".item-login").style.display = "none";
-            document.querySelector(".item-signout").style.display = "block";
-        }else{
-            document.querySelector(".item-login").style.display = "block";
-            document.querySelector(".item-signout").style.display = "none";
+    async function check() {
+        const token = localStorage.getItem("token");
+    
+        try {
+            const response = await fetch("/api/user/auth", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            console.log(typeof token);
+            if (token !== null) { 
+                console.log("123")
+                const data = await response.json();
+                console.log(data);
+                document.querySelector(".sign").style.display = "none";
+                document.querySelector(".item-login").style.display = "none";
+                document.querySelector(".item-signout").style.display = "block";
+            } else {
+                console.log("333")
+                document.querySelector(".item-login").style.display = "block";
+                document.querySelector(".item-signout").style.display = "none";
+            }
+        } catch (error) {
+            console.error("Error:", error);
         }
-    });
-}
+    }
+    
+    
 
 
 //*time and fee
@@ -196,4 +206,42 @@ fetch(`/api/attraction/${attractionId}`)
 });
 
 
+const order_btn = document.querySelector(".forBooking");
+order_btn.addEventListener("click", booking);
 
+async function booking() {
+    const token = localStorage.getItem("token");
+    await fetch("/api/user/auth")
+    if (token === null) {
+        document.querySelector(".sign").style.display = "block";
+    }else{
+        //const memberID = data.data.id;
+        const url_split = url.split("/");
+        const attractionID = url_split.slice(-1)[0]; 
+        console.log(attractionID)
+        console.log(id)
+        let entry = {};
+        const dateInput = document.getElementById("dateInput");
+        const morningTitle = document.querySelector(".morningTitle");
+        const afternoonTitle = document.querySelector(".afternoonTitle");
+        const moneyElement = document.querySelector(".money");
+        const selectedDate = dateInput.value;
+        const morningText = morningTitle.textContent;
+        const afternoonText = afternoonTitle.textContent;
+        const feeText = moneyElement.textContent;
+
+        const dataSend = {
+            date: selectedDate,
+            morning: morningText,
+            afternoon: afternoonText,
+            fee: feeText,
+        };
+
+        console.log(dataSend)
+        if (time.checked == false) {
+            alert("請點選您要上半天還是下半天");
+        } else if (date == "") {
+            alert("請點選日期");
+        }
+    }
+};

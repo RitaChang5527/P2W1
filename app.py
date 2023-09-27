@@ -1,14 +1,13 @@
 from flask import Flask,render_template
 from api.attraction_api import attraction
+from flask import *
 from api.user_api import user
 from api.booking_api import booking
-app = Flask(
-    __name__,
-    static_folder="static")
 
-app.config["JSON_AS_ASCII"] = False
-app.config["TEMPLATES_AUTO_RELOAD"] = True
-app.json.ensure_ascii = False  
+app=Flask(__name__)
+app.config["JSON_AS_ASCII"]=False
+app.config["TEMPLATES_AUTO_RELOAD"]=True
+app.json.ensure_ascii = False
 
 app.register_blueprint(attraction)
 app.register_blueprint(user)

@@ -145,7 +145,6 @@ async function login() {
                 const token = data.token;
                 console.log(token);
                 localStorage.setItem("token", data.token);
-                document.cookie = `token=${token}; path=/; expires=${checkExpiration()}`;
                 check();
             }
         } else {
@@ -186,22 +185,30 @@ signout.addEventListener("click", function () {
 
 async function check() {
     const token = localStorage.getItem("token");
-    await fetch("/api/user/auth", {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-        },
-    })
-    .then(function (response) {
-        console.log(response);
-        if (response.status === 200) {
+
+    try {
+        const response = await fetch("/api/user/auth", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        console.log(typeof token);
+        if (token !== null) { 
+            console.log("123")
+            const data = await response.json();
+            console.log(data);
             document.querySelector(".sign").style.display = "none";
             document.querySelector(".item-login").style.display = "none";
             document.querySelector(".item-signout").style.display = "block";
         } else {
+            console.log("333")
             document.querySelector(".item-login").style.display = "block";
             document.querySelector(".item-signout").style.display = "none";
         }
-    });
+    } catch (error) {
+        console.error("Error:", error);
+    }
 }
+
