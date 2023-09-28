@@ -84,7 +84,7 @@ def get_bookingData():
                 "time": record["book_time"],
                 "price": record["price"],
             })
-            print("assignment:", search)
+            print("assignment:", type(search))
 
             return jsonify({'result': search})
     except:
@@ -105,6 +105,7 @@ def create_bookingData():
         
         print("1")
         data = request.get_json()
+        print(type(data))
         print("11")
         users_id = data["user_id"]
         print("111")
@@ -194,31 +195,24 @@ def delete_bookingData():
             return jsonify({"error": True, "message": "未登入系統，拒絕存取"}, 403)
         else:
             print("4")
-
             data = request.get_json()
-            users_id = data["member_id"]
-
-            id = decode["id"]
-            print(id)
-
-
+            users_id = data["user_id"]
+            users_id = decode["id"]
             if decode["id"] != users_id:
                 return jsonify({"error": True, "message": "登入者不同，拒絕存取"}, 403)
             else:
                 print("44")
-                # attraction_id = data["attractionID"]
-                # print(data["attractionID"])
+                attraction_id = data["attractionID"]
                 date = data["date"]
-                
                 time = data["time"]
                 price = data["price"]
                 print("444")
-                query = (
-                    "DELETE FROM booking WHERE user_id=%s and attraction_id=%s and date=%s and time=%s and price=%s;")
-                cursor.execute(
-                    query, (users_id, attraction_id, date, time, price))
+                queryDel = ("DELETE FROM booking WHERE user_id=%s and attraction_id=%s and book_date=%s and book_time=%s and price=%s;")
+                print("4444")
+                cursor.execute(queryDel, (users_id,attraction_id, date, time, price))
+                print("44444")
                 conn.commit()
-
+                print("444444")
                 return jsonify({"ok": True})
     except:
         return jsonify({"error": True, "message": "未登入系統，拒絕存取"}), 403
