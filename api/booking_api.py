@@ -1,7 +1,11 @@
 from flask import *
 import mysql.connector.pooling
 import jwt
-from flask import make_response
+from flask import Flask, jsonify, request
+from flask import Blueprint
+import json 
+
+booking = Flask(__name__)
 
 db_config = {
     "host": "127.0.0.1",
@@ -11,15 +15,27 @@ db_config = {
 }
 pool = mysql.connector.pooling.MySQLConnectionPool(pool_name="attractions_pool", pool_size=10, **db_config)
 
-booking = Blueprint("booking", __name__)
-
+booking = Blueprint('booking', __name__)
 @booking.route("/api/booking", methods=['GET'])
 def get_bookingData():
     conn = pool.get_connection()
     cursor = conn.cursor(dictionary=True)
     print("connected")
     try:
-        result = {"data": {"attraction": {"id": "", "name": "", "address": "", "image": ""}, "date": "", "time": "", "price": ""}}
+        search = {
+            "data": {
+                "attraction": {
+                    "id": "",
+                    "name": "",
+                    "address": "",
+                    "image": "",
+                },
+                "date": "",
+                "time": "",
+                "price": "",
+            }
+        }
+        
         auth_header = request.headers.get("Authorization")
         token = auth_header.split(" ")[1]
         decode = jwt.decode(token, "taipei-day-trip", algorithms=["HS256"])
@@ -36,7 +52,7 @@ def get_bookingData():
                         attractions.name,
                         attractions.address,
                         attraction_images.image_url,
-                        DATE_FORMAT(booking.book_date, '%Y-%m-%d') AS booking_date,
+                        booking.book_date,
                         booking.book_time,
                         booking.price
                     FROM
@@ -50,37 +66,47 @@ def get_bookingData():
                     ORDER BY
                         book_time DESC;
                 """
+            
             cursor.execute(query, (id,))
-            print("user_id")
             record = cursor.fetchone()
-            print("11id" + id)
 
-            result["data"]["attraction"]["id"] = record["id"]
-            result["data"]["attraction"]["name"] = record["name"]
-            result["data"]["attraction"]["address"] = record["address"]
-            result["data"]["attraction"]["image"] = record["attraction_image"]
-            result["data"]["date"] = record["booking_date"]
-            result["data"]["time"] = record["time"]
-            result["data"]["price"] = record["price"]
-            return jsonify(result)
-        
-    except Exception as e:
-        return jsonify({"error": True, "message": str(e)}), 500
+            while cursor.fetchone() is not None:
+                pass
+
+            search["data"]["attraction"].update({
+                "id": record["id"],
+                "name": record["name"],
+                "address": record["address"],
+                "image": record["image_url"],
+            })
+            search["data"].update({
+                "date": record["book_date"],
+                "time": record["book_time"],
+                "price": record["price"],
+            })
+            print("assignment:", search)
+
+            return jsonify({'result': search})
+    except:
+        return jsonify({"error": True, "message": "伺服器錯誤"}), 500
     finally:
+        print("88")
         cursor.close()
+        print("888")
         conn.close()
+        print("8888")
 
 @ booking.route("/api/booking", methods=["POST"])
 def create_bookingData():
-
+    conn = mysql.connector.connect(**db_config)
+    cursor = conn.cursor()
+    print("connected")
     try:
-        conn = mysql.connector.connect(**db_config)
-        cursor = conn.cursor()
-        print("connected")
+        
         print("1")
         data = request.get_json()
         print("11")
-        users_id = data["member_id"]
+        users_id = data["user_id"]
         print("111")
         attraction_id = data["attractionID"]
         date = data["date"]
@@ -128,7 +154,6 @@ def create_bookingData():
                 print(type(time))
                 print(type(price))
                 print("5555")
-                print("55555")
 
                 return jsonify({"ok": True})
             #有資料就刪掉覆蓋          
@@ -152,3 +177,51 @@ def create_bookingData():
         print("888")
         conn.close()
         print("8888")
+
+@ booking.route("/api/booking", methods=["DELETE"])
+def delete_bookingData():
+    conn = mysql.connector.connect(**db_config)
+    cursor = conn.cursor()
+    print("connected")
+    try:
+        auth_header = request.headers.get("Authorization")
+        token = auth_header.split(" ")[1]
+        print(token)
+        decode = jwt.decode(token,"taipei-day-trip", algorithms=["HS256"])
+        print("3")
+        if decode == None:
+            print("33")
+            return jsonify({"error": True, "message": "未登入系統，拒絕存取"}, 403)
+        else:
+            print("4")
+
+            data = request.get_json()
+            users_id = data["member_id"]
+
+            id = decode["id"]
+            print(id)
+
+
+            if decode["id"] != users_id:
+                return jsonify({"error": True, "message": "登入者不同，拒絕存取"}, 403)
+            else:
+                print("44")
+                # attraction_id = data["attractionID"]
+                # print(data["attractionID"])
+                date = data["date"]
+                
+                time = data["time"]
+                price = data["price"]
+                print("444")
+                query = (
+                    "DELETE FROM booking WHERE user_id=%s and attraction_id=%s and date=%s and time=%s and price=%s;")
+                cursor.execute(
+                    query, (users_id, attraction_id, date, time, price))
+                conn.commit()
+
+                return jsonify({"ok": True})
+    except:
+        return jsonify({"error": True, "message": "未登入系統，拒絕存取"}), 403
+    finally:
+        cursor.close()
+        conn.close()
