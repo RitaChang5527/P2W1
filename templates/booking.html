@@ -84,6 +84,82 @@
     </div>
 </div>
 
+
+<div class="sign">
+    <div class="loginBox">
+        <div class="decorate"></div>
+        <div class="loginTitle">
+            登入會員帳號
+            <img
+            class="close1"
+            src="../static/CSS/index/img/close.png"
+            alt="close"
+            />
+        </div>
+        <div class="login">
+            <input
+                class="loginEmail"
+                type="text"
+                name="email"
+                id="login_email"
+                placeholder="輸入電子信箱"
+                required
+            />
+            <input
+                class="loginPassword"
+                type="password"
+                name="password"
+                id="login_password"
+                placeholder="輸入密碼"
+                required
+            />
+            <button class="loginBtn">登入帳戶</button>
+            <div class="notice1">還沒有帳戶？點此註冊</div>
+            <div class="message" id ="message"></div>
+        </div>
+    </div>
+
+    <div class="signupBox">
+        <div class="decorate"></div>
+        <div class="signupTitle">註冊會員帳號
+            <img
+                class="close2"
+                src="../static/CSS/index/img/close.png"
+                alt="close"
+            />
+        </div>
+        <div class="signup">
+            <input
+                class="signupName"
+                type="text"
+                name="name"
+                id="signup_name"
+                placeholder="輸入姓名"
+                required
+            />
+            <input
+            class="signupEmail"
+            type="email"
+            name="email"
+            id="signup_email"
+            placeholder="輸入電子信箱"
+            required
+            />
+            <input
+                class="signupPassword"
+                type="password"
+                name="password"
+                id="signup_password"
+                placeholder="輸入密碼"
+                required
+            />
+            <button type="submit" class="signupBtn">註冊帳戶</button>
+            <div class="notice2">已經有帳戶了？點此登入</div>
+            <div class="message2" id="message2"></div>
+        </div>
+    </div>
+</div>
+
 <body>
     <header>
         <div class="head">
@@ -91,7 +167,9 @@
                 <div class="left">台北一日遊</div>
             </a>
             <div class="right">
-                <div class="item-booking">預定行程</div>
+                <a href = "/booking">
+                    <div class="item-booking">預定行程</div>
+                </a>
                 <div class="item-login">登入/註冊</div>
                 <div class="item-signout">登出</div>
             </div>
@@ -102,7 +180,7 @@
         <div class="bookingContainer">
             <div class="helloContainer">
                 <div class="helloWords">
-                    您好，<div class="signinName"></div>，待預定的行程如下：
+                    您好，<span class="signinName"></span>，待預定的行程如下：
                 </div>
             </div>
 
@@ -116,8 +194,8 @@
                     <div class="left">
                         <div class="bookingDescrip">
                             <div class="bookingTitle">
-                                台北一日遊：<div class="titleAttraction"></div>
-                                <img src="../static/CSS/booking/img/icon_delete.png"/>
+                                <div class="titleCSS">台北一日遊：<span class="titleAttraction"></span></div>
+                                <img class="deleteBtn" src="../static/CSS/booking/img/icon_delete.png"/>
                             </div>
                             <div class="contentAttraction">
                                 <div class="bookingDate">
@@ -229,8 +307,8 @@
                 </div>
                 <div class="total">
                     <div class="totalContainer">
-                        <div class="totalName">總價：
-                            <div class="totalPrice"></div>
+                        <div class="totalName">
+                            總價：<span class="totalPrice"></span>
                         </div>
                         <button class="totalBtn">確認訂購並付款</button>
                     </div>
@@ -243,5 +321,6 @@
     </footer>
     <script src="../static/JS/attraction.js"></script>
     <script src="../static/JS/signin.js"></script>
+    <script src="../static/JS/booking.js"></script>
 </body>
 </html>

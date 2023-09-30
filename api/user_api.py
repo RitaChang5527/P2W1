@@ -100,30 +100,23 @@ def login():
             
 @user.route("/api/user/auth", methods=["GET"])
 def member():
+    conn = mysql.connector.connect(**db_config)
+    cursor = conn.cursor()
+    print("member connected")
     auth_header = request.headers.get("Authorization")
     print(auth_header)
+    token = auth_header.split(" ")[1]
     try:
-        conn = mysql.connector.connect(**db_config)
-        cursor = conn.cursor()
-        print("member connected")
         result = {"data": None}
-        if auth_header == "null":
+        print(type(result))
+        
+        if not token: 
             print("notLog")
-            return jsonify({"data": None})
+            return jsonify({"data": None}), 401
         else:
-            print("111")
-            try:
-                print("222")
-
-                token = auth_header.split(" ")[1]
-                print(token)
-                print("Token type2:", type(token))
-                decode = jwt.decode(token, "taipei-day-trip", algorithms=["HS256"])
-            except jwt.DecodeError as e:
-                print(f"Token error: {str(e)}")
-
-            
-
+            print(token)
+            print("Token type2:", type(token))
+            decode = jwt.decode(token, "taipei-day-trip", algorithms=["HS256"])
             id=decode['id']
             name = decode['name']
             email = decode['email']

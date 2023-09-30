@@ -1,12 +1,8 @@
-const currentUrl = window.location.href;
-const parts = currentUrl.split('/');
-const attractionIdIndex = parts.indexOf('attraction');
-const attractionId = attractionIdIndex !== -1 ? parts[attractionIdIndex + 1] : null;
-
-//console.log('Id:', attractionId);
 
 check();
-
+const currentUrl = window.location.href;
+const parts = currentUrl.split('/');
+const attractionId = parts[4];
 fetch(`/api/attraction/${attractionId}`)
     .then(response => {
         if (response.status === 200) {
@@ -94,9 +90,6 @@ fetch(`/api/attraction/${attractionId}`)
             console.error("Error:", error);
         }
     }
-    
-    
-
 
 //*time and fee
 const morningOption = document.getElementById("morningOption");
@@ -107,32 +100,28 @@ const moneyElement = document.querySelector(".money");
 morningOption.src = "../static/CSS/attraction/img/TimeSelect.png";
 afternoonOption.src = "../static/CSS/attraction/img/TimeUnselect.png";
 moneyElement.textContent = "新台幣2000元";
-
 morningOption.addEventListener("click", function () {
-    morningOption.classList.toggle("selected");
-    if (morningOption.classList.contains("selected")) {
-        morningOption.src = "../static/CSS/attraction/img/TimeSelect.png";
-        afternoonOption.src = "../static/CSS/attraction/img/TimeUnselect.png";
-        moneyElement.textContent = "新台幣2000元";
-    } else {
-        morningOption.src = "../static/CSS/attraction/img/TimeSelect.png";
-        afternoonOption.src = "../static/CSS/attraction/img/TimeUnselect.png";
-        moneyElement.textContent = "新台幣2000元";
-    }
+    toggleOption(true);
 });
 
 afternoonOption.addEventListener("click", function () {
-    afternoonOption.classList.toggle("selected");
-    if (afternoonOption.classList.contains("selected")) {
-        afternoonOption.src = "../static/CSS/attraction/img/TimeSelect.png";
-        morningOption.src = "../static/CSS/attraction/img/TimeUnselect.png";
-        moneyElement.textContent = "新台幣2500元";
+    toggleOption(false);
+});
+
+function toggleOption(isMorning) {
+    morningOption.classList.toggle("selected", isMorning);
+    afternoonOption.classList.toggle("selected", !isMorning);
+
+    if (isMorning) {
+        morningOption.src = "../static/CSS/attraction/img/TimeSelect.png";
+        afternoonOption.src = "../static/CSS/attraction/img/TimeUnselect.png";
+        moneyElement.textContent = "新台幣2000元";
     } else {
+        morningOption.src = "../static/CSS/attraction/img/TimeUnselect.png";
         afternoonOption.src = "../static/CSS/attraction/img/TimeSelect.png";
-        morningOption.src = "../static/CSS/attraction/img/TimeUnselect.png"
         moneyElement.textContent = "新台幣2500元";
     }
-});
+}
 
 //* images
 fetch(`/api/attraction/${attractionId}`)
@@ -207,41 +196,72 @@ fetch(`/api/attraction/${attractionId}`)
 
 
 const order_btn = document.querySelector(".forBooking");
-order_btn.addEventListener("click", booking);
+order_btn.addEventListener("click", function(event) {
+    event.preventDefault();
+    booking(); 
+});
+
 
 async function booking() {
     const token = localStorage.getItem("token");
+    console.log(token)
     await fetch("/api/user/auth")
-    if (token === null) {
+    if (!token) {
         document.querySelector(".sign").style.display = "block";
+        document.querySelector(".loginBox").style.display = "none";
+        document.querySelector(".signupBox").style.display = "block";
     }else{
-        //const memberID = data.data.id;
+        console.log("111")   
+        const selectedDate = document.querySelector(".dateInput");
+        let date = new Date()
+        selectedDate.min = date.getFullYear().toString() + '-' +
+        (date.getMonth() + 1).toString().padStart(2, 0) + '-' +
+        date.getDate().toString().padStart(2, 0);
+
+        let selectedTime = "morning";
+        let selectedPrice = 2000;
+        console.log(selectedTime,selectedPrice) 
+        document.getElementById("morningOption").addEventListener("click", function() {
+            selectedTime = "morning";
+            selectedPrice= 2000;
+            console.log(selectedTime,selectedPrice) 
+        });
+        document.getElementById("afternoonOption").addEventListener("click", function() {
+            console.log("112")
+            selectedTime = "afternoon";
+            selectedPrice= 2500;
+            console.log(selectedTime,selectedPrice)
+        });
+        let url = `/api${location.pathname}`;
         const url_split = url.split("/");
-        const attractionID = url_split.slice(-1)[0]; 
-        console.log(attractionID)
-        console.log(id)
-        let entry = {};
-        const dateInput = document.getElementById("dateInput");
-        const morningTitle = document.querySelector(".morningTitle");
-        const afternoonTitle = document.querySelector(".afternoonTitle");
-        const moneyElement = document.querySelector(".money");
-        const selectedDate = dateInput.value;
-        const morningText = morningTitle.textContent;
-        const afternoonText = afternoonTitle.textContent;
-        const feeText = moneyElement.textContent;
-
-        const dataSend = {
-            date: selectedDate,
-            morning: morningText,
-            afternoon: afternoonText,
-            fee: feeText,
-        };
-
-        console.log(dataSend)
-        if (time.checked == false) {
-            alert("請點選您要上半天還是下半天");
-        } else if (date == "") {
-            alert("請點選日期");
-        }
+        const attraction_id = url_split[3];
+        fetch("/api/booking", {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                attractionID: attraction_id,
+                date: selectedDate.value=="" ? selectedDate.min : selectedDate.value,
+                time: selectedTime,
+                price: selectedPrice,
+            }),
+        })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then((result) => {
+            console.log(result);
+            if (result.ok) {
+                console.log("223");
+                window.location.href = "/booking";
+            } else {
+                console.log("error")
+            }
+        });
     }
 };

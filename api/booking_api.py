@@ -4,6 +4,7 @@ import jwt
 from flask import Flask, jsonify, request
 from flask import Blueprint
 import json 
+from datetime import datetime
 
 booking = Flask(__name__)
 
@@ -84,7 +85,7 @@ def get_bookingData():
                 "time": record["book_time"],
                 "price": record["price"],
             })
-            print("assignment:", type(search))
+            print("assignment:", search)
 
             return jsonify({'result': search})
     except:
@@ -105,16 +106,15 @@ def create_bookingData():
         
         print("1")
         data = request.get_json()
-        print(type(data))
+        print(data)
         print("11")
-        users_id = data["user_id"]
-        print("111")
+
         attraction_id = data["attractionID"]
+        print("111")
         date = data["date"]
         time = data["time"]
         price = data["price"]
 
-        print(users_id)
         print(attraction_id)
         print(date)
         print(time)
@@ -124,13 +124,16 @@ def create_bookingData():
         auth_header = request.headers.get("Authorization")
         token = auth_header.split(" ")[1]
         decode = jwt.decode(token, "taipei-day-trip", algorithms=["HS256"])
+        users_id = decode["id"]
         print("3")
+
         if decode == None:
             return jsonify({"error": True, "message": "未登入系統，拒絕存取"}, 403)
         elif users_id == "" or attraction_id == "" or date == "" or time == "":
             return jsonify({"error": True, "message": "輸入資料有誤，請重新點選"}, 400)
         
         else:
+            print(users_id)
             print("4")
             query = ("SELECT * FROM booking WHERE user_id=%s;")
             print("44")
@@ -139,7 +142,6 @@ def create_bookingData():
             member_data = cursor.fetchone()
             print(member_data)
             conn.commit()
-
             print("5")
             #如果沒資料就創建
             if member_data == None:
@@ -147,14 +149,7 @@ def create_bookingData():
                 query_select1= ("INSERT INTO booking(user_id, attraction_id,book_date,book_time,price) VALUES ( %s, %s, %s, %s, %s);")
                 print("555")
                 cursor.execute(query_select1, (users_id, attraction_id, date, time, price))
-                #cursor.fetchall()
                 conn.commit()
-                print(type(users_id))
-                print(type(attraction_id))
-                print(type(date))
-                print(type(time))
-                print(type(price))
-                print("5555")
 
                 return jsonify({"ok": True})
             #有資料就刪掉覆蓋          
@@ -189,6 +184,7 @@ def delete_bookingData():
         token = auth_header.split(" ")[1]
         print(token)
         decode = jwt.decode(token,"taipei-day-trip", algorithms=["HS256"])
+        decodeID=decode["id"]
         print("3")
         if decode == None:
             print("33")
@@ -196,17 +192,25 @@ def delete_bookingData():
         else:
             print("4")
             data = request.get_json()
-            users_id = data["user_id"]
-            users_id = decode["id"]
-            if decode["id"] != users_id:
+            print(data)
+            users_id = data["users_id"]
+            print(users_id)
+            print(decodeID)
+            if decodeID != users_id:
                 return jsonify({"error": True, "message": "登入者不同，拒絕存取"}, 403)
             else:
                 print("44")
                 attraction_id = data["attractionID"]
-                date = data["date"]
+                print(attraction_id)
+                # date = data["date"]
+                date_str = data["date"]
+                date_obj = datetime.strptime(date_str, "%a, %d %b %Y %H:%M:%S %Z")
+                date = date_obj.strftime("%Y-%m-%d")
+                print(date)
                 time = data["time"]
+                print(time)
                 price = data["price"]
-                print("444")
+                print(price)
                 queryDel = ("DELETE FROM booking WHERE user_id=%s and attraction_id=%s and book_date=%s and book_time=%s and price=%s;")
                 print("4444")
                 cursor.execute(queryDel, (users_id,attraction_id, date, time, price))
