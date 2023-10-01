@@ -64,7 +64,6 @@ fetch(`/api/attraction/${attractionId}`)
 
     async function check() {
         const token = localStorage.getItem("token");
-    
         try {
             const response = await fetch("/api/user/auth", {
                 method: "GET",
@@ -92,106 +91,88 @@ fetch(`/api/attraction/${attractionId}`)
     }
 
 //*time and fee
-const morningOption = document.getElementById("morningOption");
-const afternoonOption = document.getElementById("afternoonOption");
-const moneyElement = document.querySelector(".money");
-
-
-morningOption.src = "../static/CSS/attraction/img/TimeSelect.png";
-afternoonOption.src = "../static/CSS/attraction/img/TimeUnselect.png";
-moneyElement.textContent = "新台幣2000元";
-morningOption.addEventListener("click", function () {
-    toggleOption(true);
+let Pm = document.querySelector(".PM");
+Pm.addEventListener("click", function () {
+    let price = document.querySelector(".money");
+    price.innerText = "2500";
+});
+let Am = document.querySelector(".AM");
+Am.addEventListener("click", function () {
+    let price = document.querySelector(".money");
+    price.innerText = "2000";
 });
 
-afternoonOption.addEventListener("click", function () {
-    toggleOption(false);
-});
-
-function toggleOption(isMorning) {
-    morningOption.classList.toggle("selected", isMorning);
-    afternoonOption.classList.toggle("selected", !isMorning);
-
-    if (isMorning) {
-        morningOption.src = "../static/CSS/attraction/img/TimeSelect.png";
-        afternoonOption.src = "../static/CSS/attraction/img/TimeUnselect.png";
-        moneyElement.textContent = "新台幣2000元";
-    } else {
-        morningOption.src = "../static/CSS/attraction/img/TimeUnselect.png";
-        afternoonOption.src = "../static/CSS/attraction/img/TimeSelect.png";
-        moneyElement.textContent = "新台幣2500元";
-    }
-}
 
 //* images
 fetch(`/api/attraction/${attractionId}`)
-  .then(response => {
-    if (response.status === 200) {
-        return response.json();
-    } else {
-        throw new Error('Failed to fetch attraction data');
-    }
+    .then(response => {
+        if (response.status === 200) {
+            return response.json();
+        } else {
+            throw new Error('Failed to fetch attraction data');
+        }
 })
-  .then(data => {
-    const imgElement = document.getElementById("imageElement");
-    const nextButton = document.getElementById("nextButton");
-    const prevButton = document.getElementById("prevButton");
-    const dotContainer = document.getElementById("dotContainer");
-    const images = data.data.images || [];
-    let currentIndex = 0;
+    .then(data => {
 
-    function updateImage() {
-        const imageUrl = images[currentIndex];
-        imgElement.src = imageUrl;
-    }
+        const imgElement = document.getElementById("imageElement");
+        const nextButton = document.getElementById("nextButton");
+        const prevButton = document.getElementById("prevButton");
+        const dotContainer = document.getElementById("dotContainer");
+        const images = data.data.images || [];
+        let currentIndex = 0;
 
-    nextButton.addEventListener("click", () => {
-        console.log("右按钮");
-        currentIndex = (currentIndex + 1) % images.length;
-        updateImage();
-        updateDots();
-    });
+        function updateImage() {
+            const imageUrl = images[currentIndex];
+            imgElement.src = imageUrl;
+        }
 
-    prevButton.addEventListener("click", () => {
-        console.log("左按钮");
-        currentIndex = (currentIndex - 1 + images.length) % images.length;
-        updateImage();
-        updateDots();
-    });
+        nextButton.addEventListener("click", () => {
+            console.log("右按钮");
+            currentIndex = (currentIndex + 1) % images.length;
+            updateImage();
+            updateDots();
+        });
 
-    const firstDot = document.querySelector(".dot");
-    if (firstDot) {
-        firstDot.classList.add("active");
-    }
+        prevButton.addEventListener("click", () => {
+            console.log("左按钮");
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            updateImage();
+            updateDots();
+        });
 
-    function createDots(images) {
-        for (let i = 0; i < images.length; i++) {
-            const dot = document.createElement("div");
-            dot.classList.add("dot");
-            dotContainer.appendChild(dot);
-            dot.addEventListener("click", () => {
-                currentIndex = i;
-                updateImage();
-                updateDots();
-            });
-            if (i === 0) {
-                dot.classList.add("active");
+        const firstDot = document.querySelector(".dot");
+        if (firstDot) {
+            firstDot.classList.add("active");
+        }
+
+        function createDots(images) {
+            for (let i = 0; i < images.length; i++) {
+                const dot = document.createElement("div");
+                dot.classList.add("dot");
+                dotContainer.appendChild(dot);
+                dot.addEventListener("click", () => {
+                    currentIndex = i;
+                    updateImage();
+                    updateDots();
+                });
+                if (i === 0) {
+                    dot.classList.add("active");
+                }
             }
         }
-    }
 
-    function updateDots() {
-        const dots = document.querySelectorAll(".dot");
-        dots.forEach((dot, index) => {
-            if (index === currentIndex) {
-                dot.classList.add("active");
-            } else {
-                dot.classList.remove("active");
-            }
-        });
-    }
+        function updateDots() {
+            const dots = document.querySelectorAll(".dot");
+            dots.forEach((dot, index) => {
+                if (index === currentIndex) {
+                    dot.classList.add("active");
+                } else {
+                    dot.classList.remove("active");
+                }
+            });
+        }
 
-    createDots(images);
+        createDots(images);
 });
 
 
@@ -201,15 +182,14 @@ order_btn.addEventListener("click", function(event) {
     booking(); 
 });
 
-
 async function booking() {
     const token = localStorage.getItem("token");
     console.log(token)
     await fetch("/api/user/auth")
     if (!token) {
         document.querySelector(".sign").style.display = "block";
-        document.querySelector(".loginBox").style.display = "none";
-        document.querySelector(".signupBox").style.display = "block";
+        document.querySelector(".loginBox").style.display = "block";
+        document.querySelector(".signupBox").style.display = "none";
     }else{
         console.log("111")   
         const selectedDate = document.querySelector(".dateInput");
@@ -218,23 +198,19 @@ async function booking() {
         (date.getMonth() + 1).toString().padStart(2, 0) + '-' +
         date.getDate().toString().padStart(2, 0);
 
-        let selectedTime = "morning";
-        let selectedPrice = 2000;
-        console.log(selectedTime,selectedPrice) 
-        document.getElementById("morningOption").addEventListener("click", function() {
-            selectedTime = "morning";
-            selectedPrice= 2000;
-            console.log(selectedTime,selectedPrice) 
-        });
-        document.getElementById("afternoonOption").addEventListener("click", function() {
-            console.log("112")
-            selectedTime = "afternoon";
-            selectedPrice= 2500;
-            console.log(selectedTime,selectedPrice)
-        });
+        const selectedTime = document.querySelector("input[name='time']:checked"); //value
+        const selectedPrice = document.querySelector(".money").innerText;
+
+        
+        if (selectedTime.checked == false) {
+            alert("請點選您要上半天還是下半天");
+        } else if (date == "") {
+            alert("請點選日期");
+        }
         let url = `/api${location.pathname}`;
         const url_split = url.split("/");
         const attraction_id = url_split[3];
+
         fetch("/api/booking", {
             method: "POST",
             headers: {
@@ -244,8 +220,8 @@ async function booking() {
             body: JSON.stringify({
                 attractionID: attraction_id,
                 date: selectedDate.value=="" ? selectedDate.min : selectedDate.value,
-                time: selectedTime,
-                price: selectedPrice,
+                time: selectedTime.value,
+                price:Number(selectedPrice) ,
             }),
         })
         .then((response) => {

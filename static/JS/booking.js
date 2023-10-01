@@ -1,6 +1,35 @@
 document.querySelector(".UnBooking").style.display = "none";
 
+check();
 getData();
+
+async function check() {
+    const token = localStorage.getItem("token");
+    try {
+        const response = await fetch("/api/user/auth", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        console.log(typeof token);
+        if (token !== null) { 
+            console.log("123")
+            const data = await response.json();
+            console.log(data);
+            document.querySelector(".sign").style.display = "none";
+            document.querySelector(".item-login").style.display = "none";
+            document.querySelector(".item-signout").style.display = "block";
+        } else {
+            console.log("333")
+            document.querySelector(".item-login").style.display = "block";
+            document.querySelector(".item-signout").style.display = "none";
+        }
+    } catch (error) {
+        console.error("Error:", error);
+    }
+}
 async function getData() {
     let token = localStorage.getItem("token");
     try {
@@ -15,7 +44,6 @@ async function getData() {
             document.querySelector(".sign").style.display = "block";
             window.location.href = "/";
         } else {
-            
             const id = userData.data[0];
             const name = userData.data[1];
             const email = userData.data[2];
@@ -27,8 +55,8 @@ async function getData() {
                     Authorization: `Bearer ${token}`,
                 },
             });
-
             const bookingData = await bookingResponse.json();
+            console.log(bookingData);
             if (bookingData.error == true) {
                 document.querySelector(".Booking").style.display = "none";
                 document.querySelector(".UnBooking").style.display = "block";
@@ -40,29 +68,33 @@ async function getData() {
                 const attraction = bookingData.result.data.attraction;
                 document.querySelector(".item_img").src = attraction.image;
                 document.querySelector(".titleAttraction").innerText = attraction.name;
-                date= new Date();
+                
                 changeDate=bookingData.result.data.date;
-                changeDate= date.getFullYear().toString() + '-' +
+                date= new Date(changeDate);
+                formattedDate= date.getFullYear().toString() + '-' +
                             (date.getMonth() + 1).toString().padStart(2, 0) + '-' +
                             date.getDate().toString().padStart(2, 0);
-                document.querySelector(".date").innerText = changeDate;
+                document.querySelector(".date").innerText = formattedDate;
+
                 changeTime = bookingData.result.data.time;
                 console.log(changeTime)
-                if ( changeTime === "morning" ){
+                if ( changeTime === "上半天" ){
                     document.querySelector(".time").innerText = "早上9點到中午12點";
                 }else{
                     document.querySelector(".time").innerText = "中午12點到下午4點";
                 }
-                
-                document.querySelector(".price").innerText = "新台幣"+ bookingData.result.data.price +"元";
+                // document.querySelector(".date").innerText =  bookingData.result.data.date;
+                // document.querySelector(".time").innerText =  bookingData.result.data.time;
+                document.querySelector(".price").innerText =  bookingData.result.data.price;
                 document.querySelector(".address").innerText = attraction.address;
+
+
                 const inputName = document.querySelector(".inputName");
                 inputName.value = userData.data[1]
                 const inputEmail = document.querySelector(".inputEmail");
                 inputEmail.value = userData.data[2]
                 document.querySelector(".totalPrice").innerText ="新台幣"+ bookingData.result.data.price +"元";
-                // document.querySelector(".inputName").innerText = userData.data[1];
-                // document.querySelector(".inputEmail").innerText = userData.data[2];
+
                 document.querySelector(".deleteBtn").addEventListener("click", deleteOrder);
                 async function deleteOrder() {
                     console.log("touch");
@@ -99,3 +131,5 @@ async function getData() {
         console.error(error);
     }
 }
+
+

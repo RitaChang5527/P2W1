@@ -383,34 +383,38 @@ section{
                             color: #666666;
                             font-style: normal;
                         }
-                        .morning{
-                            display: flex;
-                            justify-content: center;
-                            width: 87px;
-                            img{
-                                width: 22px;
-                                height: 22px;
-                            }
-                            .morningTitle{
+                        .timeLable{
+                            .time_title{
                                 font-family: Noto Sans TC;
+                                
                                 font-size: 16px;
-                                font-style: normal;
                                 color: #666666;
-                            }
-                        }
-                        .afternoon{
-                            display: flex;
-                            justify-content: center;
-                            width: 87px;
-                            img{
-                                width: 22px;
-                                height: 22px;
-                            }
-                            .afternoonTitle{
-                                font-family: Noto Sans TC;
-                                font-size: 16px;
                                 font-style: normal;
-                                color: #666666;
+                            }
+                            .time_btn{
+                                width: 18px;
+                                height: 18px;
+                                border: 2px solid #ffffff;
+                                background-color: #FFFFFF;
+                                border-radius: 50%;
+                                display: inline-block;
+                                align-items: center;
+                                appearance: none;
+                                margin: 0px;
+                                vertical-align: middle;
+                                margin-top: -2px;
+                                margin-bottom: 1px;
+                            }
+                            input[type="date"]::-webkit-calendar-picker-indicator:hover {
+                                cursor: pointer;
+                            }
+                            
+                            .time_btn:hover {
+                                cursor: pointer;
+                            }
+                            
+                            .time_btn:checked {
+                                background-color: #448899;
                             }
                         }
                     }
@@ -421,6 +425,10 @@ section{
                         position: absolute;
                         margin-top: 178px;
                         margin-left: 20px;
+                        font-family: Noto Sans TC;
+                        font-size: 16px;
+                        font-style: normal;
+                        color: #666666;
                         .feeTitle{
                             font-family: Noto Sans TC;
                             font-weight:bold;

@@ -372,35 +372,36 @@ section .form .formContainer .formR .time .timeTitle {
   color: #666666;
   font-style: normal;
 }
-section .form .formContainer .formR .time .morning {
-  display: flex;
-  justify-content: center;
-  width: 87px;
-}
-section .form .formContainer .formR .time .morning img {
-  width: 22px;
-  height: 22px;
-}
-section .form .formContainer .formR .time .morning .morningTitle {
+section .form .formContainer .formR .time .timeLable .time_title {
   font-family: Noto Sans TC;
   font-size: 16px;
-  font-style: normal;
   color: #666666;
-}
-section .form .formContainer .formR .time .afternoon {
-  display: flex;
-  justify-content: center;
-  width: 87px;
-}
-section .form .formContainer .formR .time .afternoon img {
-  width: 22px;
-  height: 22px;
-}
-section .form .formContainer .formR .time .afternoon .afternoonTitle {
-  font-family: Noto Sans TC;
-  font-size: 16px;
   font-style: normal;
-  color: #666666;
+}
+section .form .formContainer .formR .time .timeLable .time_btn {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #ffffff;
+  background-color: #FFFFFF;
+  border-radius: 50%;
+  display: inline-block;
+  align-items: center;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  margin: 0px;
+  vertical-align: middle;
+  margin-top: -2px;
+  margin-bottom: 1px;
+}
+section .form .formContainer .formR .time .timeLable input[type=date]::-webkit-calendar-picker-indicator:hover {
+  cursor: pointer;
+}
+section .form .formContainer .formR .time .timeLable .time_btn:hover {
+  cursor: pointer;
+}
+section .form .formContainer .formR .time .timeLable .time_btn:checked {
+  background-color: #448899;
 }
 section .form .formContainer .formR .fee {
   display: flex;
@@ -409,6 +410,10 @@ section .form .formContainer .formR .fee {
   position: absolute;
   margin-top: 178px;
   margin-left: 20px;
+  font-family: Noto Sans TC;
+  font-size: 16px;
+  font-style: normal;
+  color: #666666;
 }
 section .form .formContainer .formR .fee .feeTitle {
   font-family: Noto Sans TC;

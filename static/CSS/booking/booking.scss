@@ -463,6 +463,7 @@ footer{
                 margin: 0px;
             }
             .UnBooking{
+                width: 90%;
                 margin: 35px 0px;
             }
             .Booking{
@@ -485,6 +486,9 @@ footer{
     }
     section{
         .bookingContainer{
+            .UnBooking{
+                width: 90%;
+            }
             .Booking{
                 .descripContainer{
                     display: flex;
@@ -574,6 +578,9 @@ footer{
     }
     section{
         .bookingContainer{
+            .UnBooking{
+                width: 90%;
+            }
             .Booking{
                 .info{
                     .infoContainer{

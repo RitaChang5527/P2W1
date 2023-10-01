@@ -455,6 +455,7 @@ footer .foot {
     margin: 0px;
   }
   section .bookingContainer .UnBooking {
+    width: 90%;
     margin: 35px 0px;
   }
   section .bookingContainer .Booking .descripContainer .left {
@@ -463,6 +464,9 @@ footer .foot {
 }
 @media (max-width: 600px) {
   header .head {
+    width: 90%;
+  }
+  section .bookingContainer .UnBooking {
     width: 90%;
   }
   section .bookingContainer .Booking .descripContainer {
@@ -519,6 +523,9 @@ footer .foot {
   }
   header .head .right {
     width: 50%;
+  }
+  section .bookingContainer .UnBooking {
+    width: 90%;
   }
   section .bookingContainer .Booking .info .infoContainer .infoName .inputName {
     width: 60%;

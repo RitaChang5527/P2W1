@@ -58,7 +58,9 @@ switchToLogin.addEventListener("click", function () {
     document.querySelector(".signupBox").style.display = "none";
 });
 
-
+//按下預定行程按鈕確認有無登入
+const bookingBtn = document.querySelector(".item-booking");
+bookingBtn.addEventListener("click", checksignin);
 
 
 //signupBtn
@@ -145,6 +147,7 @@ async function login() {
                 const token = data.token;
                 console.log(token);
                 localStorage.setItem("token", data.token);
+                document.cookie = `token=${token}; path=/; expires=${checkExpiration()}`;
                 check();
             }
         } else {
@@ -185,30 +188,39 @@ signout.addEventListener("click", function () {
 
 async function check() {
     const token = localStorage.getItem("token");
-
-    try {
-        const response = await fetch("/api/user/auth", {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-            },
-        });
-        console.log(typeof token);
-        if (token !== null) { 
-            console.log("123")
-            const data = await response.json();
-            console.log(data);
+    await fetch("/api/user/auth", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+    })
+    .then(function (response) {
+        console.log(response);
+        if (response.status === 200) {
             document.querySelector(".sign").style.display = "none";
             document.querySelector(".item-login").style.display = "none";
             document.querySelector(".item-signout").style.display = "block";
         } else {
-            console.log("333")
             document.querySelector(".item-login").style.display = "block";
             document.querySelector(".item-signout").style.display = "none";
         }
-    } catch (error) {
-        console.error("Error:", error);
+    });
+}
+async function checksignin() {
+    const token = localStorage.getItem("token");
+    const response = await fetch("/api/user/auth", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+    });
+    if (!response.ok) {
+        document.querySelector(".sign").style.display = "block";
+        document.querySelector(".loginBox").style.display = "block";
+        document.querySelector(".signupBox").style.display = "none";
+    } else {
+        window.location.href = "/booking";
     }
 }
-
