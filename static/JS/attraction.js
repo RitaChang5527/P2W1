@@ -3,76 +3,45 @@ check();
 const currentUrl = window.location.href;
 const parts = currentUrl.split('/');
 const attractionId = parts[4];
-fetch(`/api/attraction/${attractionId}`)
+let url = "/api/attraction/" + attractionId;
+fetch(url)
     .then(response => {
+        console.log(url)
         if (response.status === 200) {
+            console.log(url)
             return response.json();
         } else {
             throw new Error('Failed to fetch attraction data');
-            }
+        }
     })
     .then(data => {
-        //console.log('Data:', data);
-        
+        console.log('Data:', data);
         const nameElement = document.querySelector(".name");
+        nameElement.innerText = data.data.name;
         const positionElement = document.querySelector(".position");
+        const positionText = `${data.data.category} at ${data.data.mrt}`;
+        positionElement.textContent = positionText;
         const descriptionElement = document.querySelector(".description");
+        descriptionElement.textContent = data.data.description;
         const addressElement = document.querySelector(".addressInfo");
+        addressElement.textContent = data.data.address;
         const transportElement = document.querySelector(".transportInfo");
+        transportElement.textContent = data.data.transport;
         const imgElement = document.getElementById("imageElement");
-
-        if (data.data.name) {
-            nameElement.textContent = data.data.name;
-        } else {
-            console.error('Name data is missing');
-        }
-        
-        if (data.data.category && data.data.mrt) {
-            const positionText = `${data.data.category} at ${data.data.mrt}`;
-            positionElement.textContent = positionText;
-            //console.log(positionText);
-        } else {
-            console.error('Position data is missing');
-        }
-
-        if (data.data.description) {
-            descriptionElement.textContent = data.data.description;
-        } else {
-            console.error('Description data is missing');
-        }
-
-        if (data.data.address) {
-            addressElement.textContent = data.data.address;
-        } else {
-            console.error('Address data is missing');
-        }
-
-        if (data.data.transport) {
-            transportElement.textContent = data.data.transport;
-        } else {
-            console.error('Transport data is missing');
-        }
-
-        if (data.data.images) {
-            //console.log(data.data);
-            //console.log(data.data.images);
-            imgElement.src = data.data.images[0];
-        } else {
-            console.error('Img data is missing');
-        }
+        imgElement.src = data.data.images[0];
     });
+
 
     async function check() {
         const token = localStorage.getItem("token");
-        try {
-            const response = await fetch("/api/user/auth", {
+        const response = await fetch("/api/user/auth", {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`,
                 },
             });
-            console.log(typeof token);
+            console.log(token);
             if (token !== null) { 
                 console.log("123")
                 const data = await response.json();
@@ -85,22 +54,8 @@ fetch(`/api/attraction/${attractionId}`)
                 document.querySelector(".item-login").style.display = "block";
                 document.querySelector(".item-signout").style.display = "none";
             }
-        } catch (error) {
-            console.error("Error:", error);
-        }
-    }
+        } 
 
-//*time and fee
-let Pm = document.querySelector(".PM");
-Pm.addEventListener("click", function () {
-    let price = document.querySelector(".money");
-    price.innerText = "2500";
-});
-let Am = document.querySelector(".AM");
-Am.addEventListener("click", function () {
-    let price = document.querySelector(".money");
-    price.innerText = "2000";
-});
 
 
 //* images
@@ -113,7 +68,6 @@ fetch(`/api/attraction/${attractionId}`)
         }
 })
     .then(data => {
-
         const imgElement = document.getElementById("imageElement");
         const nextButton = document.getElementById("nextButton");
         const prevButton = document.getElementById("prevButton");

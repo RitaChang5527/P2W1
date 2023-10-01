@@ -1,35 +1,35 @@
 document.querySelector(".UnBooking").style.display = "none";
 
-check();
+// check();
 getData();
 
-async function check() {
-    const token = localStorage.getItem("token");
-    try {
-        const response = await fetch("/api/user/auth", {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-            },
-        });
-        console.log(typeof token);
-        if (token !== null) { 
-            console.log("123")
-            const data = await response.json();
-            console.log(data);
-            document.querySelector(".sign").style.display = "none";
-            document.querySelector(".item-login").style.display = "none";
-            document.querySelector(".item-signout").style.display = "block";
-        } else {
-            console.log("333")
-            document.querySelector(".item-login").style.display = "block";
-            document.querySelector(".item-signout").style.display = "none";
-        }
-    } catch (error) {
-        console.error("Error:", error);
-    }
-}
+// async function check() {
+//     const token = localStorage.getItem("token");
+//     try {
+//         const response = await fetch("/api/user/auth", {
+//             method: "GET",
+//             headers: {
+//                 "Content-Type": "application/json",
+//                 Authorization: `Bearer ${token}`,
+//             },
+//         });
+//         console.log(typeof token);
+//         if (token !== null) { 
+//             console.log("123")
+//             const data = await response.json();
+//             console.log(data);
+//             document.querySelector(".sign").style.display = "none";
+//             document.querySelector(".item-login").style.display = "none";
+//             document.querySelector(".item-signout").style.display = "block";
+//         } else {
+//             console.log("333")
+//             document.querySelector(".item-login").style.display = "block";
+//             document.querySelector(".item-signout").style.display = "none";
+//         }
+//     } catch (error) {
+//         console.error("Error:", error);
+//     }
+// }
 async function getData() {
     let token = localStorage.getItem("token");
     try {

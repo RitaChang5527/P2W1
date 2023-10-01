@@ -80,10 +80,7 @@ def login():
                     "exp": expiration_time
                 }
                 print("payload : " + str(payload))
-                try:
-                    token = jwt.encode(payload, "taipei-day-trip", algorithm="HS256")
-                except Exception as e:
-                    print(e)
+                token = jwt.encode(payload, "taipei-day-trip", algorithm="HS256")
                 response = make_response(jsonify({"ok": True, "token": token}))
                 return response, 200
             else:
@@ -103,20 +100,20 @@ def member():
     conn = mysql.connector.connect(**db_config)
     cursor = conn.cursor()
     print("member connected")
-    auth_header = request.headers.get("Authorization")
-    print(auth_header)
-    token = auth_header.split(" ")[1]
     try:
         result = {"data": None}
-        print(type(result))
-        
-        if not token: 
+        auth_header = request.headers.get("Authorization")
+        print(auth_header)
+        if auth_header is None: 
             print("notLog")
-            return jsonify({"data": None}), 401
-        else:
+            return jsonify({"data": None})
+        token = auth_header.split(" ")[1]
+        if token == "null":
             print(token)
-            print("Token type2:", type(token))
-            decode = jwt.decode(token, "taipei-day-trip", algorithms=["HS256"])
+            return jsonify({"data": None})
+        else:
+            decode = jwt.decode(token,"taipei-day-trip", algorithms=["HS256"])
+            print("login")
             id=decode['id']
             name = decode['name']
             email = decode['email']
@@ -128,7 +125,7 @@ def member():
             cursor.execute(query, (id,email, name))
             record = cursor.fetchone()
             result["data"] = record
-        return jsonify(result)
+            return jsonify(result)
     finally:
         cursor.close()
         conn.close()

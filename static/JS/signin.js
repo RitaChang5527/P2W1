@@ -1,8 +1,6 @@
 //window.location.reload();
 
-document.addEventListener("DOMContentLoaded", function () {
-    check();
-});
+check();
 
 //*點擊登入註冊
 let sign = document.querySelector(".item-login");
@@ -186,27 +184,31 @@ signout.addEventListener("click", function () {
     });
 });
 
+
 async function check() {
     const token = localStorage.getItem("token");
-    await fetch("/api/user/auth", {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-        },
-    })
-    .then(function (response) {
-        console.log(response);
-        if (response.status === 200) {
+    const response = await fetch("/api/user/auth", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        if (token !== null) { 
+            console.log("123")
             document.querySelector(".sign").style.display = "none";
             document.querySelector(".item-login").style.display = "none";
             document.querySelector(".item-signout").style.display = "block";
+            const data = response.json();
+            console.log(data);
         } else {
+            console.log("333")
             document.querySelector(".item-login").style.display = "block";
             document.querySelector(".item-signout").style.display = "none";
         }
-    });
-}
+    } 
+
+
 async function checksignin() {
     const token = localStorage.getItem("token");
     const response = await fetch("/api/user/auth", {
