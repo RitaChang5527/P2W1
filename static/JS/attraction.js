@@ -17,7 +17,7 @@ fetch(url)
     .then(data => {
         console.log('Data:', data);
         const nameElement = document.querySelector(".name");
-        nameElement.innerText = data.data.name;
+        nameElement.textContent = data.data.name;
         const positionElement = document.querySelector(".position");
         const positionText = `${data.data.category} at ${data.data.mrt}`;
         positionElement.textContent = positionText;
@@ -129,6 +129,16 @@ fetch(`/api/attraction/${attractionId}`)
         createDots(images);
 });
 
+let PM = document.querySelector(".PM");
+PM.addEventListener("click", function () {
+    let price = document.querySelector(".money");
+    price.innerText = "2500";
+});
+let AM = document.querySelector(".AM");
+AM.addEventListener("click", function () {
+    let price = document.querySelector(".money");
+    price.innerText = "2000";
+});
 
 const order_btn = document.querySelector(".forBooking");
 order_btn.addEventListener("click", function(event) {
