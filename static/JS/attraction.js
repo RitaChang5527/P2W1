@@ -29,46 +29,7 @@ fetch(url)
         transportElement.textContent = data.data.transport;
         const imgElement = document.getElementById("imageElement");
         imgElement.src = data.data.images[0];
-    });
 
-
-    async function check() {
-        const token = localStorage.getItem("token");
-        const response = await fetch("/api/user/auth", {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-            console.log(token);
-            if (token !== null) { 
-                console.log("123")
-                const data = await response.json();
-                console.log(data);
-                document.querySelector(".sign").style.display = "none";
-                document.querySelector(".item-login").style.display = "none";
-                document.querySelector(".item-signout").style.display = "block";
-            } else {
-                console.log("333")
-                document.querySelector(".item-login").style.display = "block";
-                document.querySelector(".item-signout").style.display = "none";
-            }
-        } 
-
-
-
-//* images
-fetch(`/api/attraction/${attractionId}`)
-    .then(response => {
-        if (response.status === 200) {
-            return response.json();
-        } else {
-            throw new Error('Failed to fetch attraction data');
-        }
-})
-    .then(data => {
-        const imgElement = document.getElementById("imageElement");
         const nextButton = document.getElementById("nextButton");
         const prevButton = document.getElementById("prevButton");
         const dotContainer = document.getElementById("dotContainer");
@@ -127,7 +88,105 @@ fetch(`/api/attraction/${attractionId}`)
         }
 
         createDots(images);
-});
+    });
+
+
+    async function check() {
+        const token = localStorage.getItem("token");
+        const response = await fetch("/api/user/auth", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            console.log(token);
+            if (token !== null) { 
+                console.log("123")
+                const data = await response.json();
+                console.log(data);
+                document.querySelector(".sign").style.display = "none";
+                document.querySelector(".item-login").style.display = "none";
+                document.querySelector(".item-signout").style.display = "block";
+            } else {
+                console.log("333")
+                document.querySelector(".item-login").style.display = "block";
+                document.querySelector(".item-signout").style.display = "none";
+            }
+        } 
+
+
+
+// //* images
+// fetch(`/api/attraction/${attractionId}`)
+//     .then(response => {
+//         if (response.status === 200) {
+//             return response.json();
+//         } else {
+//             throw new Error('Failed to fetch attraction data');
+//         }
+// })
+//     .then(data => {
+//         const imgElement = document.getElementById("imageElement");
+//         const nextButton = document.getElementById("nextButton");
+//         const prevButton = document.getElementById("prevButton");
+//         const dotContainer = document.getElementById("dotContainer");
+//         const images = data.data.images || [];
+//         let currentIndex = 0;
+
+//         function updateImage() {
+//             const imageUrl = images[currentIndex];
+//             imgElement.src = imageUrl;
+//         }
+
+//         nextButton.addEventListener("click", () => {
+//             console.log("右按钮");
+//             currentIndex = (currentIndex + 1) % images.length;
+//             updateImage();
+//             updateDots();
+//         });
+
+//         prevButton.addEventListener("click", () => {
+//             console.log("左按钮");
+//             currentIndex = (currentIndex - 1 + images.length) % images.length;
+//             updateImage();
+//             updateDots();
+//         });
+
+//         const firstDot = document.querySelector(".dot");
+//         if (firstDot) {
+//             firstDot.classList.add("active");
+//         }
+
+//         function createDots(images) {
+//             for (let i = 0; i < images.length; i++) {
+//                 const dot = document.createElement("div");
+//                 dot.classList.add("dot");
+//                 dotContainer.appendChild(dot);
+//                 dot.addEventListener("click", () => {
+//                     currentIndex = i;
+//                     updateImage();
+//                     updateDots();
+//                 });
+//                 if (i === 0) {
+//                     dot.classList.add("active");
+//                 }
+//             }
+//         }
+
+//         function updateDots() {
+//             const dots = document.querySelectorAll(".dot");
+//             dots.forEach((dot, index) => {
+//                 if (index === currentIndex) {
+//                     dot.classList.add("active");
+//                 } else {
+//                     dot.classList.remove("active");
+//                 }
+//             });
+//         }
+
+//         createDots(images);
+// });
 
 let PM = document.querySelector(".PM");
 PM.addEventListener("click", function () {
