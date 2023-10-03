@@ -2,7 +2,7 @@ from flask import *
 import mysql.connector.pooling
 import traceback 
 import json
-
+from flask import Blueprint, jsonify
 
 db_config = {
     "host": "127.0.0.1",
@@ -66,7 +66,6 @@ def get_attractions():
 
         cursor.execute(query, query_params)
         attractions = cursor.fetchall()
-    
         data_len = 12
         next_page = page + 1 if len(attractions) == data_len else None
 
@@ -90,7 +89,6 @@ def get_attractions():
         }
 
         json_data = json.dumps(formatted_data, ensure_ascii=False, indent=2)
-
         return json_data, 200, {"Content-Type": "application/json; charset=utf-8"}
 
     except Exception as e:
@@ -116,7 +114,7 @@ def get_attraction_details(attraction_id):
         """
         cursor.execute(query, (attraction_id,))
         attraction_data = cursor.fetchone()
-
+        print(attraction_data)
         if not attraction_data:
             print("Attraction data not found")
             return jsonify({"error": True, "message": "Invalid attraction ID"}), 400
@@ -130,14 +128,11 @@ def get_attraction_details(attraction_id):
                 "address": attraction_data["address"],
                 "transport": attraction_data["transport"],
                 "mrt": attraction_data["mrt"],
-                "lat": float(attraction_data["lat"]),  # 将字符串转换为浮点数
-                "lng": float(attraction_data["lng"]),  # 将字符串转换为浮点数
                 "images": attraction_data["images"].split(",") if attraction_data["images"] else []
             }
         }
 
         json_data = json.dumps(formatted_data, ensure_ascii=False, indent=2)
-
         return json_data, 200, {"Content-Type": "application/json; charset=utf-8"}
 
     except Exception as e:

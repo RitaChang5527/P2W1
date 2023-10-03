@@ -237,13 +237,14 @@ function createAttraction(data) {
 
 document.addEventListener("DOMContentLoaded", function () {
     const parentElement = document.querySelector("#attractions");
-
     parentElement.addEventListener("click", (event) => {
         const attractionBox = event.target.closest(".attraction_box");
         if (attractionBox) {
             const attractionId = attractionBox.getAttribute("data-attractionid");
             if (attractionId) {
+                console.log("1111")
                 window.location.href = `/attraction/${attractionId}`;
+                console.log(attractionId)
             }
         }
     });
@@ -355,5 +356,4 @@ function addEmpty(attractions) {
         `;
     }
 }
-
 

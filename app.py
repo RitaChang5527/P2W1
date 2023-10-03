@@ -1,16 +1,18 @@
 from flask import Flask,render_template
-from api.attraction_api import attraction
-from api.user_api import user
-app = Flask(
-    __name__,
-    static_folder="static")
 
-app.config["JSON_AS_ASCII"] = False
-app.config["TEMPLATES_AUTO_RELOAD"] = True
-app.json.ensure_ascii = False  
+from flask import *
+from api.user_api import user
+from api.booking_api import booking
+from api.attraction_api import attraction
+
+app = Flask(__name__)
+app.config["JSON_AS_ASCII"]=False
+app.config["TEMPLATES_AUTO_RELOAD"]=True
+app.json.ensure_ascii = False
 
 app.register_blueprint(attraction)
 app.register_blueprint(user)
+app.register_blueprint(booking)
 
 # Pages
 @app.route("/")
@@ -29,5 +31,6 @@ def booking():
 def thankyou():
     return render_template("thankyou.html")
 
+
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=3000)
+    app.run(host='0.0.0.0', port=3000 )

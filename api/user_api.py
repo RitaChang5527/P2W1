@@ -2,11 +2,7 @@ from flask import *
 import mysql.connector.pooling
 import jwt
 import datetime
-from flask import make_response
-import json
-from flask import Flask, jsonify
-
-jwt_secret_key = "taipei-day-trip"
+from flask import make_response,jsonify
 
 db_config = {
     "host": "127.0.0.1",
@@ -62,36 +58,21 @@ def signup():
 
 @user.route("/api/user/auth", methods=["PUT"])
 def login():
-    print("123 : " + str(request.method))
     if request.method == "PUT":
         try:
-            print("321")
             data = request.get_json()
-            print("json : " + str(request.get_json()))
             email = data["email"]
             password = data["password"]
-            print("321321")
-            print("user : " + email)
-            print("pwd : " + password)
-
             expiration_time = datetime.datetime.utcnow() + datetime.timedelta(days=7)
-            print("CCCCC")
             conn = pool.get_connection()
-            print("connected")
             cursor = conn.cursor(dictionary=True)
-            print("CCC")
             query = ("SELECT * FROM users WHERE email=%s AND password=%s")
             cursor.execute(query, (email, password))
-            print("Query executed:", cursor.statement)
             record = cursor.fetchone()
-            print(f"Data source: {record}")
             if record is not None:
                 id = record['id']
                 name = record['name']
                 email = record['email']
-                print("id : " + str(record['id'])) 
-                print("name : " + str(record['name'])) 
-                print("email : " + str(record['email'])) 
                 payload = {
                     "id": id,
                     "name": name,
@@ -99,15 +80,8 @@ def login():
                     "exp": expiration_time
                 }
                 print("payload : " + str(payload))
-                print("1")
-                try:
-                    token = jwt.encode(payload, "taipei-day-trip", algorithm="HS256")
-                except Exception as e:
-                    print(e)
-                print(token)
-                print("2")
+                token = jwt.encode(payload, "taipei-day-trip", algorithm="HS256")
                 response = make_response(jsonify({"ok": True, "token": token}))
-                response.set_cookie("token", value=token, expires=expiration_time)
                 return response, 200
             else:
                 print("login fail")
@@ -123,35 +97,35 @@ def login():
             
 @user.route("/api/user/auth", methods=["GET"])
 def member():
-    print("member0")
+    conn = mysql.connector.connect(**db_config)
+    cursor = conn.cursor()
+    print("member connected")
     try:
-        conn = mysql.connector.connect(**db_config)
-        cursor = conn.cursor()
-        print("member connected")
         result = {"data": None}
-        cookie = request.cookies
-        token = cookie.get("token")
-        if token == None:
-            print("data none")
+        auth_header = request.headers.get("Authorization")
+        print(auth_header)
+        if auth_header is None: 
+            print("notLog")
+            return jsonify({"data": None})
+        token = auth_header.split(" ")[1]
+        if token == "null":
+            print(token)
             return jsonify({"data": None})
         else:
-            decode = jwt.decode(token, jwt_secret_key, algorithms=["HS256"])
-            print(str(decode))
-            # try:
-            #     decode = jwt.decode(token, "taipei-day-trip", algorithms=["HS256"])
-            #     print(str(decode))
-            # except Exception as e:
-            #     print(e)
+            decode = jwt.decode(token,"taipei-day-trip", algorithms=["HS256"])
+            print("login")
+            id=decode['id']
             name = decode['name']
-            print("name : "+name)
             email = decode['email']
-            print("email : " + email)
+            print("dID:", id)
+            print("dName:", name)
+            print("dEmail:", email)
 
-            query = ("SELECT id,name,email FROM users WHERE email=%s AND name=%s")
-            cursor.execute(query, (email, name))
+            query = ("SELECT id,name,email FROM users WHERE id=%s AND email=%s AND name=%s")
+            cursor.execute(query, (id,email, name))
             record = cursor.fetchone()
             result["data"] = record
-        return jsonify(result)
+            return jsonify(result)
     finally:
         cursor.close()
         conn.close()
@@ -160,7 +134,6 @@ def member():
 def signout():
     try:
         response = make_response(jsonify({"ok": True}))
-        response.delete_cookie("token")
         return response, 200
     except:
         return jsonify({"error": "true"}), 500

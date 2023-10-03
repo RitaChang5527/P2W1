@@ -1,0 +1,548 @@
+* {
+  margin: 0px;
+}
+
+.sign {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 3;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: none;
+}
+.sign .loginBox {
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #ffffff;
+  position: absolute;
+  width: 340px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 5px;
+  align-items: center;
+}
+.sign .loginBox .decorate {
+  width: 100%;
+  height: 10px;
+  background: linear-gradient(270deg, #337788 0%, #66aabb 100%);
+  border-radius: 5px 5px 0px 0px;
+}
+.sign .loginBox .loginTitle {
+  margin-top: 15px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 24px;
+}
+.sign .loginBox .loginTitle img {
+  position: absolute;
+  right: 17px;
+  top: 27px;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+.sign .loginBox .login .loginEmail,
+.sign .loginBox .login .loginPassword {
+  border-radius: 5px;
+  border: 1px solid #cccccc;
+  padding: 15px 15px;
+  width: 280px;
+  margin-left: 15px;
+}
+.sign .loginBox .login .loginEmail {
+  margin-top: 15px;
+  margin-left: 15px;
+}
+.sign .loginBox .login .loginPassword {
+  margin-top: 10px;
+  margin-left: 15px;
+}
+.sign .loginBox .login .loginBtn {
+  background-color: #448899;
+  color: #ffffff;
+  border: 0px;
+  padding: 10px 20px;
+  font-size: 19px;
+  border-radius: 5px;
+  width: 310px;
+  margin-top: 10px;
+  margin-left: 15px;
+}
+.sign .loginBox .login .notice1 {
+  text-align: center;
+  margin-top: 10px;
+}
+.sign .loginBox .login .notice1:hover {
+  cursor: pointer;
+}
+.sign .loginBox .login .message {
+  text-align: center;
+  color: red;
+  margin: 15px;
+}
+.sign .signupBox {
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #ffffff;
+  position: absolute;
+  width: 340px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  border-radius: 5px;
+  align-items: center;
+}
+.sign .signupBox .decorate {
+  width: 100%;
+  height: 10px;
+  background: linear-gradient(270deg, #337788 0%, #66aabb 100%);
+  border-radius: 5px 5px 0px 0px;
+}
+.sign .signupBox .signupTitle {
+  margin-top: 10px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 24px;
+}
+.sign .signupBox .signupTitle img {
+  position: absolute;
+  right: 17px;
+  top: 27px;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+.sign .signupBox .signup .signupEmail,
+.sign .signupBox .signup .signupName,
+.sign .signupBox .signup .signupPassword {
+  border-radius: 5px;
+  border: 1px solid #cccccc;
+  font-weight: 500;
+  padding: 15px 15px;
+  width: 280px;
+}
+.sign .signupBox .signup .signupEmail {
+  margin-top: 15px;
+  margin-left: 15px;
+}
+.sign .signupBox .signup .signupName {
+  margin-top: 10px;
+  margin-left: 15px;
+}
+.sign .signupBox .signup .signupPassword {
+  margin-top: 10px;
+  margin-left: 15px;
+}
+.sign .signupBox .signup .signupBtn {
+  background-color: #448899;
+  color: #ffffff;
+  border: 0px;
+  padding: 10px 15px;
+  font-size: 19px;
+  border-radius: 5px;
+  width: 310px;
+  margin-top: 10px;
+  margin-left: 15px;
+}
+.sign .signupBox .signup .notice2 {
+  text-align: center;
+  margin: 15px;
+}
+.sign .signupBox .signup .notice2:hover {
+  cursor: pointer;
+}
+.sign .signupBox .signup .message2 {
+  text-align: center;
+  color: red;
+  margin: 15px;
+}
+
+header {
+  position: fixed;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 54px;
+  background-color: #ffffff;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+header .head {
+  display: flex;
+  width: 1200px;
+  justify-content: space-between;
+}
+header .head a {
+  text-decoration: none;
+}
+header .head a .left {
+  flex: none;
+  font-family: Noto Sans TC;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 34px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #448899;
+}
+header .head .right {
+  display: flex;
+  align-items: center;
+  width: 175px;
+  height: 34px;
+}
+header .head .right .item-booking,
+header .head .right .item-login,
+header .head .right .item-signout {
+  flex: none;
+  font-family: Noto Sans TC;
+  justify-content: space-between;
+  padding: 10px;
+  align-items: center;
+  font-size: 16px;
+  color: #666666;
+}
+
+section {
+  margin-top: 94px;
+  display: flex;
+  justify-content: center;
+}
+section .bookingContainer {
+  width: 1200px;
+}
+section .bookingContainer .helloContainer {
+  margin: 0px 100px;
+  display: flex;
+  justify-content: start;
+  align-items: flex-start;
+}
+section .bookingContainer .helloContainer .helloWords,
+section .bookingContainer .helloContainer .signinName {
+  font-family: Noto Sans TC;
+  font-size: 19px;
+  font-weight: bold;
+  font-style: normal;
+  color: #666666;
+}
+section .bookingContainer .UnBooking {
+  width: 980px;
+  font-style: normal;
+  color: #666666;
+  font-size: 16px;
+  margin: 35px 100px;
+}
+section .bookingContainer .Booking .descripContainer {
+  display: flex;
+  justify-content: center;
+  margin: 35px 0px;
+}
+section .bookingContainer .Booking .descripContainer .right {
+  width: 300px;
+}
+section .bookingContainer .Booking .descripContainer .right img {
+  width: 266px;
+  height: 200px;
+  background-color: #666666;
+}
+section .bookingContainer .Booking .descripContainer .left {
+  width: 700px;
+}
+section .bookingContainer .Booking .descripContainer .left .bookingDescrip {
+  position: relative;
+}
+section .bookingContainer .Booking .descripContainer .left .bookingDescrip .bookingTitle {
+  color: #448899;
+  font-family: Noto Sans TC;
+  font-size: 16px;
+  font-weight: bold;
+  font-style: normal;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+section .bookingContainer .Booking .descripContainer .left .bookingDescrip .bookingTitle .deleteBtn {
+  position: absolute;
+  left: 100%;
+}
+section .bookingContainer .Booking .descripContainer .left .bookingDescrip .contentAttraction .bookingDate,
+section .bookingContainer .Booking .descripContainer .left .bookingDescrip .contentAttraction .bookingTime,
+section .bookingContainer .Booking .descripContainer .left .bookingDescrip .contentAttraction .bookingPrice,
+section .bookingContainer .Booking .descripContainer .left .bookingDescrip .contentAttraction .bookingLocation {
+  font-family: Noto Sans TC;
+  font-size: 16px;
+  font-weight: bold;
+  font-style: normal;
+  display: flex;
+  color: #666666;
+  margin: 10px 0px;
+}
+section .bookingContainer .Booking .lineContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+section .bookingContainer .Booking .lineContainer .line {
+  border: 1px solid #E8E8E8;
+  border-top: 0px;
+  width: 1200px;
+  display: flex;
+  justify-content: center;
+}
+section .bookingContainer .Booking .info {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+}
+section .bookingContainer .Booking .info .infoContainer {
+  width: 980px;
+}
+section .bookingContainer .Booking .info .infoContainer .contactTitle {
+  font-family: Noto Sans TC;
+  font-size: 19px;
+  font-style: normal;
+  font-weight: bold;
+  color: #666666;
+  margin-bottom: 30px;
+}
+section .bookingContainer .Booking .info .infoContainer .infoName,
+section .bookingContainer .Booking .info .infoContainer .infoEmail,
+section .bookingContainer .Booking .info .infoContainer .infoPhone {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  margin: 15px 0px;
+}
+section .bookingContainer .Booking .info .infoContainer .infoName .nameTitle,
+section .bookingContainer .Booking .info .infoContainer .infoName .emailTitle,
+section .bookingContainer .Booking .info .infoContainer .infoName .phoneTitle,
+section .bookingContainer .Booking .info .infoContainer .infoEmail .nameTitle,
+section .bookingContainer .Booking .info .infoContainer .infoEmail .emailTitle,
+section .bookingContainer .Booking .info .infoContainer .infoEmail .phoneTitle,
+section .bookingContainer .Booking .info .infoContainer .infoPhone .nameTitle,
+section .bookingContainer .Booking .info .infoContainer .infoPhone .emailTitle,
+section .bookingContainer .Booking .info .infoContainer .infoPhone .phoneTitle {
+  font-family: Noto Sans TC;
+  font-size: 19px;
+  font-style: normal;
+  font-weight: bold;
+  color: #666666;
+}
+section .bookingContainer .Booking .info .infoContainer .infoName .inputName,
+section .bookingContainer .Booking .info .infoContainer .infoName .inputEmail,
+section .bookingContainer .Booking .info .infoContainer .infoName .inputPhone,
+section .bookingContainer .Booking .info .infoContainer .infoEmail .inputName,
+section .bookingContainer .Booking .info .infoContainer .infoEmail .inputEmail,
+section .bookingContainer .Booking .info .infoContainer .infoEmail .inputPhone,
+section .bookingContainer .Booking .info .infoContainer .infoPhone .inputName,
+section .bookingContainer .Booking .info .infoContainer .infoPhone .inputEmail,
+section .bookingContainer .Booking .info .infoContainer .infoPhone .inputPhone {
+  width: 200px;
+  height: 20px;
+  align-items: flex-start;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #E8E8E8;
+  background: var(--White, #FFF);
+}
+section .bookingContainer .Booking .info .infoContainer .phoneNotice {
+  font-family: Noto Sans TC;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: bold;
+  color: #666666;
+  margin: 20px 0px;
+}
+section .bookingContainer .Booking .creditcard {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+}
+section .bookingContainer .Booking .creditcard .creditcardContainer {
+  width: 980px;
+}
+section .bookingContainer .Booking .creditcard .creditcardContainer .creditcardTitle {
+  font-family: Noto Sans TC;
+  font-size: 19px;
+  font-style: normal;
+  font-weight: bold;
+  color: #666666;
+  margin-bottom: 20px;
+}
+section .bookingContainer .Booking .creditcard .creditcardContainer .creditcardNum,
+section .bookingContainer .Booking .creditcard .creditcardContainer .creditcardExp,
+section .bookingContainer .Booking .creditcard .creditcardContainer .creditcardCvv {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  margin: 15px 0px;
+}
+section .bookingContainer .Booking .creditcard .creditcardContainer .numTitle,
+section .bookingContainer .Booking .creditcard .creditcardContainer .expTitle,
+section .bookingContainer .Booking .creditcard .creditcardContainer .cvvTitle {
+  font-family: Noto Sans TC;
+  font-size: 19px;
+  font-style: normal;
+  font-weight: bold;
+  color: #666666;
+}
+section .bookingContainer .Booking .creditcard .creditcardContainer .inputNum,
+section .bookingContainer .Booking .creditcard .creditcardContainer .inputExpires,
+section .bookingContainer .Booking .creditcard .creditcardContainer .inputCvv {
+  width: 200px;
+  height: 20px;
+  align-items: flex-start;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #E8E8E8;
+  background: var(--White, #FFF);
+}
+section .bookingContainer .Booking .total {
+  margin: 40px 0px;
+  display: flex;
+  justify-content: end;
+}
+section .bookingContainer .Booking .total .totalContainer .totalName {
+  font-family: Noto Sans TC;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: bold;
+  color: #666666;
+}
+section .bookingContainer .Booking .total .totalContainer .totalBtn {
+  margin-top: 35px;
+  font-family: Noto Sans TC;
+  font-size: 19px;
+  font-style: normal;
+  background-color: #448899;
+  color: #FFF;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+}
+
+footer {
+  width: 100%;
+  height: 104px;
+  background-color: #757575;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+footer .foot {
+  color: #FFFFFF;
+  font-family: Noto Sans TC;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 14px;
+}
+
+@media (max-width: 1200px) {
+  header .head {
+    width: 90%;
+  }
+  section .bookingContainer {
+    width: 90%;
+  }
+  section .bookingContainer .helloContainer {
+    margin: 0px;
+  }
+  section .bookingContainer .UnBooking {
+    width: 90%;
+    margin: 35px 0px;
+  }
+  section .bookingContainer .Booking .descripContainer .left {
+    margin-left: 20px;
+  }
+}
+@media (max-width: 600px) {
+  header .head {
+    width: 90%;
+  }
+  section .bookingContainer .UnBooking {
+    width: 90%;
+  }
+  section .bookingContainer .Booking .descripContainer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  section .bookingContainer .Booking .descripContainer .right {
+    width: 100%;
+  }
+  section .bookingContainer .Booking .descripContainer .right .item_img {
+    width: 100%;
+    height: 100%;
+    -o-object-fit: cover;
+       object-fit: cover;
+  }
+  section .bookingContainer .Booking .descripContainer .left {
+    width: 95%;
+    margin-top: 20px;
+  }
+  section .bookingContainer .Booking .descripContainer .left .bookingDescrip .bookingTitle .deleteBtn {
+    top: 100%;
+    left: 90%;
+    margin: 10px 0px;
+  }
+  section .bookingContainer .Booking .info .infoContainer .infoName .inputName {
+    width: 80%;
+  }
+  section .bookingContainer .Booking .info .infoContainer .infoEmail .inputEmail {
+    width: 80%;
+  }
+  section .bookingContainer .Booking .info .infoContainer .infoPhone .inputPhone {
+    width: 80%;
+  }
+  section .bookingContainer .Booking .creditcard .creditcardContainer .creditcardNum .inputNum {
+    width: 80%;
+  }
+  section .bookingContainer .Booking .creditcard .creditcardContainer .creditcardExp .inputExpires {
+    width: 80%;
+  }
+  section .bookingContainer .Booking .creditcard .creditcardContainer .creditcardCvv .inputCvv {
+    width: 80%;
+  }
+}
+@media (max-width: 360px) {
+  .sign .loginBox {
+    width: 90%;
+  }
+  .sign .signupBox {
+    width: 90%;
+  }
+  header .head {
+    width: 90%;
+  }
+  header .head .right {
+    width: 50%;
+  }
+  section .bookingContainer .UnBooking {
+    width: 90%;
+  }
+  section .bookingContainer .Booking .info .infoContainer .infoName .inputName {
+    width: 60%;
+  }
+  section .bookingContainer .Booking .info .infoContainer .infoEmail .inputEmail {
+    width: 60%;
+  }
+  section .bookingContainer .Booking .info .infoContainer .infoPhone .inputPhone {
+    width: 60%;
+  }
+  section .bookingContainer .Booking .creditcard .creditcardContainer .creditcardNum .inputNum {
+    width: 60%;
+  }
+  section .bookingContainer .Booking .creditcard .creditcardContainer .creditcardExp .inputExpires {
+    width: 60%;
+  }
+  section .bookingContainer .Booking .creditcard .creditcardContainer .creditcardCvv .inputCvv {
+    width: 60%;
+  }
+}/*# sourceMappingURL=booking.css.map */

@@ -117,23 +117,36 @@
                         <div class="date">
                             <div class="dateTitle">選擇日期：</div>
                             <div class="dateForm">
-                                <input type="date" id="dateInput"placeholder="yyyy/mm/dd"  />
+                                <input type="date"class="dateInput" id="dateInput"placeholder="yyyy/mm/dd"  />
                             </div>
                         </div>
                         <div class="time">
                             <div class="timeTitle">選擇時間：</div>
-                            <div class="morning">
-                                <img id="morningOption" src="../static/CSS/attraction/img/TimeUnselect.png">
-                                <div class="morningTitle">上半天</div>
-                            </div>
-                            <div class="afternoon">
-                                <img id="afternoonOption" src="../static/CSS/attraction/img/TimeUnselect.png">
-                                <div class="afternoonTitle">下半天</div>
+                            <div class="timeLable">
+                                <label for="time">
+                                    <input
+                                        class="time_btn AM"
+                                        type="radio"
+                                        name="time"
+                                        id="AM"
+                                        value="上半天"
+                                        checked
+                                    />
+                                    <label class="time_title" for="AM">上半天</label>
+                                    <input
+                                        class="time_btn PM"
+                                        type="radio"
+                                        name="time"
+                                        id="PM"
+                                        value="下半天"
+                                    />
+                                    <label class="time_title" for="PM">下半天</label>
+                                </label>
                             </div>
                         </div>
                         <div class="fee">
                             <div class="feeTitle">導覽費用：</div>
-                            <div class="money"></div>
+                            新台幣<span class="money">2000</span>元
                         </div>
                         <button class="forBooking">開始預約行程</button>
                     </div>
@@ -164,5 +177,6 @@
     </footer>
     <script src="../static/JS/attraction.js"></script>
     <script src="../static/JS/signin.js"></script>
+    <script src="../static/JS/booking.js"></script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 //window.location.reload();
 
-check() ;
+check();
 
 //*點擊登入註冊
 let sign = document.querySelector(".item-login");
@@ -56,7 +56,9 @@ switchToLogin.addEventListener("click", function () {
     document.querySelector(".signupBox").style.display = "none";
 });
 
-
+//按下預定行程按鈕確認有無登入
+const bookingBtn = document.querySelector(".item-booking");
+bookingBtn.addEventListener("click", checksignin);
 
 
 //signupBtn
@@ -133,22 +135,24 @@ async function login() {
             },
         });
         if (response.ok) {
-            //data: resultData;
             const data = await response.json();
             console.log("data: " + data["error"]);
             if (Boolean(data["error"])) {
                 console.log("rsp_e");
                 document.getElementById('message').innerText = "登入錯誤";
                 console.log("rsp_2");
-            }else {
+            } else {
+                const token = data.token;
+                console.log(token);
+                localStorage.setItem("token", data.token);
+                document.cookie = `token=${token}; path=/; expires=${checkExpiration()}`;
                 check();
             }
         } else {
-            const token = data.token;
-            console.log(token)
-            document.cookie = `token=${token}; path=/; expires=${checkExpiration()}`;
+            console.error("HTTP 请求失败:", response.status, response.statusText);
             throw new Error("fail");
         }
+        
     } catch (error) {
         console.log("error", error);
     }
@@ -156,8 +160,8 @@ async function login() {
 
 
 function checkExpiration() {
-    const Date = new Date();
-    expirationDate.setDate(Date.getDate() + 7);
+    const expirationDate = new Date();
+    expirationDate.setDate(expirationDate.getDate() + 7);
     return expirationDate.toUTCString();
 }
 
@@ -173,28 +177,52 @@ signout.addEventListener("click", function () {
     .then(function (data) {
         if (data.ok == true) {
             window.location.href = "/";
+            localStorage.removeItem("token");
             document.querySelector(".item-login").style.display = "block";
             document.querySelector(".item-signout").style.display = "none";
         }
     });
 });
 
+
 async function check() {
-    await fetch("/api/user/auth")
-    .then(function (response) {
-        console.log(response)
-        return response.json();
-        
-    })
-    .then(function (data) {
-        console.log(data)
-        if (data.data !== null) {
+    const token = localStorage.getItem("token");
+    const response = await fetch("/api/user/auth", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        if (token !== null) { 
+            console.log("123")
             document.querySelector(".sign").style.display = "none";
             document.querySelector(".item-login").style.display = "none";
             document.querySelector(".item-signout").style.display = "block";
-        }else{
+            const data = response.json();
+            console.log(data);
+        } else {
+            console.log("333")
             document.querySelector(".item-login").style.display = "block";
             document.querySelector(".item-signout").style.display = "none";
         }
+    } 
+
+
+async function checksignin() {
+    const token = localStorage.getItem("token");
+    const response = await fetch("/api/user/auth", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
     });
+    if (!response.ok) {
+        document.querySelector(".sign").style.display = "block";
+        document.querySelector(".loginBox").style.display = "block";
+        document.querySelector(".signupBox").style.display = "none";
+    } else {
+        window.location.href = "/booking";
+    }
 }
