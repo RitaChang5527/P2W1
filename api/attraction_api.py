@@ -7,7 +7,7 @@ from flask import Blueprint, jsonify
 db_config = {
     "host": "127.0.0.1",
     "user": "root",
-    "password": "#Abc123456789",
+    "password": "123456789",
     "database": "taipei",
 }
 pool = mysql.connector.pooling.MySQLConnectionPool(pool_name="attractions_pool", pool_size=10, **db_config)

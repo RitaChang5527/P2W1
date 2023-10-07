@@ -6,8 +6,6 @@ from flask import Blueprint
 import json 
 from datetime import datetime
 
-booking = Flask(__name__)
-
 db_config = {
     "host": "127.0.0.1",
     "user": "root",

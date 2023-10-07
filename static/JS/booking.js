@@ -1,7 +1,6 @@
 document.querySelector(".UnBooking").style.display = "none";
-
-
 getData();
+
 
 async function getData() {
     let token = localStorage.getItem("token");
