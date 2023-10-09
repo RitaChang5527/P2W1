@@ -4,6 +4,7 @@ from flask import *
 from api.user_api import user
 from api.booking_api import booking
 from api.attraction_api import attraction
+from api.order_api import orders
 
 app = Flask(__name__)
 app.config["JSON_AS_ASCII"]=False
@@ -13,6 +14,7 @@ app.json.ensure_ascii = False
 app.register_blueprint(attraction)
 app.register_blueprint(user)
 app.register_blueprint(booking)
+app.register_blueprint(orders)
 
 # Pages
 @app.route("/")
