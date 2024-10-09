@@ -10,6 +10,20 @@ Users can also search for attractions by category and order trips on specific da
 ![infinite scroll image](static/Demo/infinite_scroll.gif)
 
 ## Features
+- Search for attractions by keywords or MRT.
+
+![search attraction image](static/Demo/keyword_search.gif)
+
+- Shopping Cart System
+
+![shopping cart system image](static/Demo/shopping_cart_system.gif)
+
+- Responsive Web Design (RWD)
+
+![RWD image](static/Demo/RWD.gif)
+
+- Connect to the database using connection pool and optimize queries with index settings.
+
 ### Home Page
 The home page of the Taipei-Day-Trip project allows you to view all the attractions of Taipei City. 
 You can also search for specific categories by using the search box. 
