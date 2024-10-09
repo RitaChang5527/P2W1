@@ -6,7 +6,8 @@ With this application, users can easily find detailed information about attracti
 Users can also search for attractions by category and order trips on specific dates.
 
 ## Demo
-![Demo](http://g.recordit.co/jIFbG7xyAH.gif)
+- Infinite Scroll
+![infinite scroll image](static/Demo/infinite_scroll.gif)
 
 ## Features
 ### Home Page
